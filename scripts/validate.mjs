@@ -35,6 +35,11 @@ const validStatuses = new Set(['client', 'internal', 'concept']);
 if (Array.isArray(portfolio)) for (const project of portfolio) {
   if (!validStatuses.has(project.status)) errors.push(`Estado inválido en proyecto: ${project.slug}`);
   if (project.result && typeof project.result !== 'string') errors.push(`Resultado inválido en proyecto: ${project.slug}`);
+  const resources = project.media?.flatMap(item => [item.src, item.poster]) ?? [project.image];
+  for (const resource of resources.filter(Boolean)) {
+    try { await access(path.join(root, 'src', resource)); }
+    catch { errors.push(`Falta recurso del portafolio ${project.slug}: ${resource}`); }
+  }
 }
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
 if (!Array.isArray(socialLinks) || socialLinks.length < 1) errors.push('social-links.json debe incluir canales');

@@ -14,6 +14,31 @@
     "production": "Desarrollo de logotipo, isotipo, paleta y aplicaciones iniciales.",
     "deliverables": ["Logotipo", "Isotipo", "Paleta cromática", "Aplicaciones de referencia"],
     "result": null,
-    "image": "assets/images/brand/vumari-logo-primary.png"
+    "image": "assets/images/brand/vumari-logo-primary.png",
+    "imageAlt": "Logotipo multicolor desarrollado para la identidad de VUMARI STUDIOS"
+  },
+  {
+    "slug": "contenido-centro-rehabilitacion-la-luz-y-la-esperanza",
+    "name": "Contenido audiovisual para centro de rehabilitación",
+    "client": "La Luz y la Esperanza que Anhelo — Centro de Rehabilitación",
+    "category": "Producción audiovisual y contenido digital",
+    "date": "2026",
+    "status": "client",
+    "statusLabel": "Trabajo para cliente",
+    "summary": "Serie vertical que reúne testimonios, entrevistas, actividades y momentos de convivencia para comunicar el trabajo cotidiano del centro.",
+    "problem": "Organizar distintos tipos de grabación en piezas breves y coherentes para comunicación en redes sociales.",
+    "objective": "Documentar historias, actividades y la dimensión humana del centro mediante contenido vertical adaptado a plataformas sociales.",
+    "concept": "Testimonios directos y registro cercano, con identidad visual constante y edición orientada al consumo móvil.",
+    "production": "Grabación vertical, entrevistas, cobertura de actividades, edición, subtítulos y adaptación para redes sociales.",
+    "deliverables": ["13 videos verticales", "Entrevistas", "Testimonios", "Cobertura de actividades", "Piezas para redes sociales"],
+    "result": null,
+    "media": [
+      {"src":"assets/video/portfolio/centro-rehabilitacion/actividad-grupal-integracion.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/actividad-grupal-integracion.webp","title":"Actividad grupal de integración"},
+      {"src":"assets/video/portfolio/centro-rehabilitacion/testimonio-mujer-reflexion.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/testimonio-mujer-reflexion.webp","title":"Testimonio de mujer en entrevista"},
+      {"src":"assets/video/portfolio/centro-rehabilitacion/convivencia-preparacion-alimentos.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/convivencia-preparacion-alimentos.webp","title":"Convivencia durante preparación de alimentos"},
+      {"src":"assets/video/portfolio/centro-rehabilitacion/actividad-taller-manual.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/actividad-taller-manual.webp","title":"Registro de actividad manual"},
+      {"src":"assets/video/portfolio/centro-rehabilitacion/entrevista-colaborador-centro.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/entrevista-colaborador-centro.webp","title":"Entrevista a integrante del centro"},
+      {"src":"assets/video/portfolio/centro-rehabilitacion/convivencia-evento-exterior.mp4","poster":"assets/images/portfolio/centro-rehabilitacion/convivencia-evento-exterior.webp","title":"Cobertura de convivencia en exterior"}
+    ]
   }
 ]

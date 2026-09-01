@@ -77,6 +77,9 @@ function layout({title, description, file, content}) {
 const serviceCards = services.map((s,i) => `<article class="card"><span class="card__number">0${i+1}</span><h3>${s.name}</h3><p>${s.summary}</p></article>`).join('');
 const processCards = site.process.map((step,i) => `<li class="card"><span class="card__number">PASO ${i+1}</span><h3>${step}</h3></li>`).join('');
 const quoteButton = `<a class="button button--primary" href="cotizacion.html">Solicita una cotización</a>`;
+const projectMedia = project => project.media?.length
+  ? `<div class="project-media" aria-label="Selección audiovisual de ${escape(project.name)}">${project.media.map(item => `<figure class="video-card"><video controls preload="none" poster="${item.poster}" playsinline aria-label="${escape(item.title)}"><source src="${item.src}" type="video/mp4">Tu navegador no puede reproducir este video.</video><figcaption>${escape(item.title)}</figcaption></figure>`).join('')}</div>`
+  : `<img class="project-cover" src="${project.image}" alt="${escape(project.imageAlt ?? project.name)}" loading="lazy" width="1122" height="1402">`;
 
 const pages = [
   {
@@ -93,7 +96,7 @@ const pages = [
   },
   {
     file:'portafolio.html', title:`Portafolio | ${company.brand}`, description:'Proyectos propios, trabajos para clientes y demostraciones conceptuales de VUMARI STUDIOS claramente identificados.',
-    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Portafolio</p><h1>Trabajo con contexto, no sólo imágenes.</h1><p class="lead">Cada proyecto indica su origen. Las demostraciones conceptuales nunca se presentan como clientes reales.</p></div></section><section class="section section--soft"><div class="container">${portfolio.map(p=>`<article class="project"><img src="${p.image}" alt="Logotipo desarrollado para la identidad de VUMARI STUDIOS" loading="lazy" width="1122" height="1402"><div><p class="status">${p.statusLabel}</p><h2>${p.name}</h2><p>${p.summary}</p><ul class="timeline"><li><strong>Problema:</strong> ${p.problem}</li><li><strong>Objetivo:</strong> ${p.objective}</li><li><strong>Concepto:</strong> ${p.concept}</li><li><strong>Producción:</strong> ${p.production}</li><li><strong>Entregables:</strong> ${p.deliverables.join(', ')}</li>${p.result ? `<li><strong>Resultado:</strong> ${p.result}</li>` : ''}</ul></div></article>`).join('')}</div></section>`
+    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Portafolio</p><h1>Trabajo con contexto, no sólo imágenes.</h1><p class="lead">Cada proyecto indica su origen. Las demostraciones conceptuales nunca se presentan como clientes reales.</p></div></section><section class="section section--soft"><div class="container project-list">${portfolio.map(p=>`<article class="project"><div class="project-details"><div><p class="status">${p.statusLabel}</p><p class="project-meta">${escape(p.client)} · ${escape(p.category)} · ${escape(p.date)}</p><h2>${p.name}</h2><p>${p.summary}</p></div><ul class="timeline"><li><strong>Problema:</strong> ${p.problem}</li><li><strong>Objetivo:</strong> ${p.objective}</li><li><strong>Concepto:</strong> ${p.concept}</li><li><strong>Producción:</strong> ${p.production}</li><li><strong>Entregables:</strong> ${p.deliverables.join(', ')}</li>${p.result ? `<li><strong>Resultado:</strong> ${p.result}</li>` : ''}</ul></div>${projectMedia(p)}</article>`).join('')}</div></section>`
   },
   {
     file:'nosotros.html', title:`Nosotros | ${company.brand}`, description:'Conoce el origen, la misión y la forma de trabajo de VUMARI STUDIOS en Tres Valles, Veracruz.',

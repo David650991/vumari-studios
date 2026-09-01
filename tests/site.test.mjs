@@ -78,3 +78,16 @@ test('incluye los canales de contacto sin inventar datos', async () => {
   }
   assert.doesNotMatch(html, /href="null"/);
 });
+
+test('publica el trabajo audiovisual con carga de video bajo demanda', async () => {
+  const portfolio = JSON.parse(await readFile(path.join(root, 'src/data/portfolio.json'), 'utf8'));
+  const project = portfolio.find(item => item.slug === 'contenido-centro-rehabilitacion-la-luz-y-la-esperanza');
+  const html = await readFile(path.join(dist, 'portafolio.html'), 'utf8');
+  assert.equal(project.status, 'client');
+  assert.equal(project.media.length, 6);
+  assert.equal((html.match(/<video controls preload="none"/g) ?? []).length, project.media.length);
+  for (const item of project.media) {
+    assert.ok(html.includes(item.src));
+    assert.ok(html.includes(item.poster));
+  }
+});
