@@ -5,3 +5,8 @@
 .tag-list { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin-top: 1.2rem; }
 .tag { background: rgba(255,255,255,.07); border-radius: 99px; color: var(--color-muted); font-size: .86rem; padding: .35rem .7rem; }
 .status { color: var(--color-cyan); font-size: .8rem; font-weight: 800; text-transform: uppercase; }
+.process-grid { counter-reset: process-step; list-style: none; }
+.process-grid .card { counter-increment: process-step; min-height: 10rem; padding: 1.4rem 1.4rem 1.4rem 5rem; position: relative; }
+.process-grid .card::before { align-items: center; background: linear-gradient(145deg, rgba(239,10,168,.2), rgba(111,44,255,.18)); border: 1px solid rgba(239,10,168,.38); border-radius: 50%; color: var(--color-text); content: counter(process-step, decimal-leading-zero); display: flex; font-size: .82rem; font-weight: 900; height: 2.7rem; justify-content: center; left: 1.25rem; position: absolute; top: 1.25rem; width: 2.7rem; }
+.process-grid .card__number { color: var(--color-magenta); font-size: .7rem; margin-bottom: .6rem; }
+.process-grid .card h3 { max-width: 17rem; }

@@ -1,13 +1,13 @@
 .hero { background-color: #08020f; background-image: linear-gradient(180deg, rgba(8,2,15,0) 0%, rgba(8,2,15,.03) 52%, #08020f 79%), url("../../assets/images/brand/vumari-hero-light-rays.png"); background-position: center top; background-repeat: no-repeat; background-size: auto 34rem; isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
 .hero::before { background: radial-gradient(ellipse at 50% 34%, transparent 0 20%, rgba(8,2,15,.06) 44%, rgba(8,2,15,.38) 82%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 0; }
 .hero-grid { align-items: center; display: grid; gap: var(--space-5); justify-items: center; position: relative; text-align: center; z-index: 1; }
-.hero-brand { align-items: center; display: flex; justify-content: center; min-height: clamp(20rem, 48vw, 34rem); position: relative; width: 100%; }
+.hero-brand { align-items: center; display: flex; justify-content: center; min-height: min(34rem, calc(100svh - 10.6rem)); position: relative; width: 100%; }
 .hero-brand::before { background: radial-gradient(circle, rgba(239,10,168,.3), rgba(111,44,255,.16) 38%, transparent 70%); content: ""; filter: blur(1rem); inset: 10%; position: absolute; }
 .hero-copy { align-items: center; display: grid; gap: var(--space-4); justify-items: center; max-width: 56rem; }
 .hero-copy h1 { font-size: clamp(2.5rem, 7vw, 5.4rem); }
 .hero-copy .lead { max-width: 50rem; }
 .hero-copy .actions { justify-content: center; }
-.hero-mark { filter: drop-shadow(0 1.5rem 3rem rgba(111,44,255,.4)) drop-shadow(0 0 1.5rem rgba(18,205,236,.2)); height: clamp(19rem, 45vw, 32rem); margin-inline: auto; object-fit: contain; position: relative; width: auto; }
+.hero-mark { filter: drop-shadow(0 1.5rem 3rem rgba(111,44,255,.4)) drop-shadow(0 0 1.5rem rgba(18,205,236,.2)); height: auto; margin-inline: auto; max-height: min(32rem, calc(100svh - 11.5rem)); object-fit: contain; position: relative; width: min(86vw, 28rem); }
 .idea-list { display: grid; gap: .75rem; grid-template-columns: repeat(2, 1fr); list-style: none; }
 .idea-list li { border-bottom: 1px solid var(--color-border); padding-block: .8rem; }
 .cta-panel { background: linear-gradient(130deg, rgba(111,44,255,.2), rgba(239,10,168,.12)); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 4rem); }
