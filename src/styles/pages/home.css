@@ -1,16 +1,25 @@
-.hero { background: radial-gradient(circle at 72% 48%, rgba(111, 44, 255, .2), transparent 28%), linear-gradient(155deg, #06030d 0%, #10051f 52%, #05040a 100%); isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(4rem, 10vw, 7rem); position: relative; }
-.hero::before { background: repeating-conic-gradient(from 252deg at 72% 48%, transparent 0deg 2.6deg, rgba(18, 205, 236, .34) 2.8deg 3deg, transparent 3.2deg 6.4deg, rgba(239, 10, 168, .3) 6.6deg 6.9deg, transparent 7.1deg 10.5deg, rgba(255, 116, 24, .24) 10.7deg 10.9deg, transparent 11.1deg 14deg); content: ""; inset: -35%; mask-image: radial-gradient(ellipse at 72% 48%, #000 0 7%, rgba(0,0,0,.9) 14%, transparent 54%); opacity: .95; pointer-events: none; transform: scale(1.05); z-index: 0; }
-.hero::after { background: radial-gradient(circle at 72% 48%, rgba(255,255,255,.68) 0 .18rem, transparent .3rem), radial-gradient(circle at 61% 34%, rgba(18,205,236,.9) 0 .12rem, transparent .2rem), radial-gradient(circle at 88% 31%, rgba(239,10,168,.85) 0 .13rem, transparent .22rem), radial-gradient(circle at 82% 64%, rgba(255,116,24,.82) 0 .1rem, transparent .2rem), radial-gradient(circle at 55% 68%, rgba(111,44,255,.85) 0 .13rem, transparent .23rem); background-size: 100% 100%, 8rem 7rem, 10rem 9rem, 9rem 8rem, 11rem 10rem; content: ""; inset: 0; opacity: .62; pointer-events: none; z-index: 0; }
-.hero-grid { align-items: center; display: grid; gap: var(--space-6); position: relative; z-index: 1; }
-.hero-copy { display: grid; gap: var(--space-4); }
-.hero-mark { filter: drop-shadow(0 1.5rem 3rem rgba(111,44,255,.35)) drop-shadow(0 0 1.25rem rgba(18,205,236,.14)); margin-inline: auto; max-height: 31rem; object-fit: contain; position: relative; }
+.hero { background: radial-gradient(ellipse at 50% 32%, #251044 0%, #110525 42%, #07030d 78%); isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
+.hero::before { background: linear-gradient(90deg, transparent, rgba(18,205,236,.9) 48%, #fff 50%, rgba(239,10,168,.9) 52%, transparent), linear-gradient(90deg, transparent, rgba(239,10,168,.7) 48%, rgba(255,116,24,.9) 50%, transparent 53%); background-size: 100% 2px, 100% 3px; box-shadow: 0 0 1.5rem rgba(18,205,236,.42), 0 0 2.5rem rgba(239,10,168,.3); content: ""; height: 1px; left: 6%; opacity: .75; position: absolute; right: 6%; top: 34%; z-index: 0; }
+.hero::after { background: radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 2px), radial-gradient(circle, rgba(18,205,236,.9) 0 1.5px, transparent 2.5px), radial-gradient(circle, rgba(239,10,168,.9) 0 1px, transparent 2px), radial-gradient(circle at 50% 34%, rgba(111,44,255,.72), transparent 22%); background-position: 2rem 3rem, 1rem 1.5rem, 4rem .5rem, 0 0; background-size: 7rem 5rem, 9rem 6rem, 11rem 7rem, 100% 100%; content: ""; inset: 0; opacity: .72; pointer-events: none; z-index: 0; }
+.hero-rays { inset: -42% -18%; pointer-events: none; position: absolute; z-index: 0; }
+.hero-rays::before, .hero-rays::after { content: ""; inset: 0; position: absolute; }
+.hero-rays::before { background: repeating-conic-gradient(from 237deg at 50% 50%, transparent 0deg 1.4deg, rgba(18,205,236,.72) 1.55deg 1.72deg, transparent 1.9deg 3.6deg, rgba(239,10,168,.65) 3.76deg 3.94deg, transparent 4.1deg 6.1deg, rgba(255,116,24,.52) 6.22deg 6.4deg, transparent 6.58deg 8.4deg); mask-image: radial-gradient(ellipse at center, transparent 0 6%, #000 13% 53%, transparent 73%); transform: scaleX(1.32); }
+.hero-rays::after { background: conic-gradient(from 266deg at 50% 50%, transparent 0 4deg, rgba(18,205,236,.23) 5deg 6deg, transparent 7deg 13deg, rgba(239,10,168,.2) 14deg 16deg, transparent 17deg 25deg, rgba(255,116,24,.16) 26deg 28deg, transparent 29deg 180deg, rgba(18,205,236,.18) 181deg 183deg, transparent 184deg 191deg, rgba(239,10,168,.2) 192deg 194deg, transparent 195deg 360deg); filter: blur(2px); transform: scaleX(1.45); }
+.hero-grid { align-items: center; display: grid; gap: var(--space-5); justify-items: center; position: relative; text-align: center; z-index: 1; }
+.hero-brand { align-items: center; display: flex; justify-content: center; min-height: clamp(20rem, 48vw, 34rem); position: relative; width: 100%; }
+.hero-brand::before { background: radial-gradient(circle, rgba(239,10,168,.3), rgba(111,44,255,.16) 38%, transparent 70%); content: ""; filter: blur(1rem); inset: 10%; position: absolute; }
+.hero-copy { align-items: center; display: grid; gap: var(--space-4); justify-items: center; max-width: 56rem; }
+.hero-copy h1 { font-size: clamp(2.5rem, 7vw, 5.4rem); }
+.hero-copy .lead { max-width: 50rem; }
+.hero-copy .actions { justify-content: center; }
+.hero-mark { filter: drop-shadow(0 1.5rem 3rem rgba(111,44,255,.4)) drop-shadow(0 0 1.5rem rgba(18,205,236,.2)); height: clamp(19rem, 45vw, 32rem); margin-inline: auto; object-fit: contain; position: relative; width: auto; }
 .idea-list { display: grid; gap: .75rem; grid-template-columns: repeat(2, 1fr); list-style: none; }
 .idea-list li { border-bottom: 1px solid var(--color-border); padding-block: .8rem; }
 .cta-panel { background: linear-gradient(130deg, rgba(111,44,255,.2), rgba(239,10,168,.12)); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 4rem); }
-@media (min-width: 56rem) { .hero-grid { grid-template-columns: 1.25fr .75fr; } .idea-list { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 56rem) { .idea-list { grid-template-columns: repeat(3, 1fr); } }
 @media (prefers-reduced-motion: no-preference) {
-  .hero::before { animation: hero-rays 16s ease-in-out infinite alternate; }
+  .hero-rays { animation: hero-rays 16s ease-in-out infinite alternate; }
   .hero::after { animation: hero-sparks 10s ease-in-out infinite alternate; }
 }
-@keyframes hero-rays { from { opacity: .58; transform: scale(1.02) rotate(-.4deg); } to { opacity: .92; transform: scale(1.09) rotate(.4deg); } }
+@keyframes hero-rays { from { opacity: .7; transform: scale(1.01); } to { opacity: 1; transform: scale(1.06); } }
 @keyframes hero-sparks { from { opacity: .36; transform: translate3d(-.2rem, .1rem, 0); } to { opacity: .62; transform: translate3d(.25rem, -.2rem, 0); } }
