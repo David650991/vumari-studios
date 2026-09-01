@@ -7,6 +7,10 @@ venv/
 dist/
 build/
 .cache/
+.tmp-video-review/
+
+# Bandeja local de recursos sin revisar
+recursos/
 
 # Cobertura y pruebas
 coverage/
@@ -27,4 +31,3 @@ desktop.ini
 
 # Registros
 *.log
-
