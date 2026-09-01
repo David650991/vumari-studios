@@ -3,10 +3,10 @@ import path from 'node:path';
 
 const root = process.cwd();
 const readJson = async file => JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8'));
-const [company, author, legal, services, portfolio, site, socialLinks] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks, contactChannels] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
   readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
-  readJson('social-links.json')
+  readJson('social-links.json'), readJson('contact-channels.json')
 ]);
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
@@ -23,6 +23,14 @@ const socialItem = item => {
     : `<li class="social-item social-item--pending" aria-label="${item.label}: próximamente">${content}</li>`;
 };
 const socialList = className => `<ul class="${className}" aria-label="Redes sociales de VUMARI STUDIOS">${socialLinks.map(socialItem).join('')}</ul>`;
+const contactItem = item => {
+  const detail = item.value ?? 'Pendiente de configuración';
+  const content = `<img src="${item.icon}" alt="" width="32" height="32"><span><strong>${item.label}</strong><small>${detail}</small></span>`;
+  return item.url
+    ? `<li><a class="social-item" href="${item.url}">${content}</a></li>`
+    : `<li class="social-item social-item--pending" aria-label="${item.label}: ${detail}">${content}</li>`;
+};
+const contactList = `<ul class="social-list social-list--contact" aria-label="Canales de contacto de VUMARI STUDIOS">${contactChannels.map(contactItem).join('')}</ul>`;
 
 function header(current) {
   return `<a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -96,7 +104,7 @@ const pages = [
   },
   {
     file:'contacto.html', title:`Contacto | ${company.brand}`, description:'Contacta a VUMARI STUDIOS para conversar sobre publicidad, producción, contenido, diseño o desarrollo web.',
-    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Contacto</p><h1>Una conversación clara es el primer paso.</h1><p class="lead">Atendemos de forma digital desde Tres Valles, Veracruz, y evaluamos trabajos presenciales según el proyecto.</p><div class="actions">${quoteButton}</div></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><h2>Canales oficiales</h2>${company.email ? `<p><a href="mailto:${company.email}">${company.email}</a></p>` : '<p>Correo: pendiente de configuración.</p>'}<p>Los perfiles se activarán en cuanto exista una dirección oficial confirmada.</p>${socialList('social-list social-list--contact')}</article><article class="card"><h2>Ubicación y cobertura</h2><p>Tres Valles, Veracruz, México.</p><p>Atención principalmente digital para clientes de la región y de otras partes de México.</p></article></div></section>`
+    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Contacto</p><h1>Una conversación clara es el primer paso.</h1><p class="lead">Atendemos de forma digital desde Tres Valles, Veracruz, y evaluamos trabajos presenciales según el proyecto.</p><div class="actions">${quoteButton}</div></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><h2>Canales de contacto</h2><p>Los datos se activarán cuando exista información oficial confirmada.</p>${contactList}</article><article class="card"><h2>Redes sociales</h2><p>Los perfiles se convertirán en enlaces cuando se configuren sus direcciones oficiales.</p>${socialList('social-list social-list--contact')}</article></div></section>`
   },
   {
     file:'privacidad.html', title:`Aviso de privacidad | ${company.brand}`, description:'Información sobre el tratamiento de datos compartidos con VUMARI STUDIOS mediante sus formularios de contacto.',

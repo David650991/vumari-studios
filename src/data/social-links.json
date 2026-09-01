@@ -34,5 +34,11 @@
     "label": "X",
     "icon": "assets/icons/social/vumari-social-x.png",
     "url": null
+  },
+  {
+    "id": "telegram",
+    "label": "Telegram",
+    "icon": "assets/icons/social/vumari-social-telegram.png",
+    "url": null
   }
 ]

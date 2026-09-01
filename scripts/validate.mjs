@@ -7,10 +7,10 @@ const readJson = async file => {
   try { return JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8')); }
   catch (error) { errors.push(`${file}: ${error.message}`); return null; }
 };
-const [company, author, legal, services, portfolio, site, socialLinks] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks, contactChannels] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
   readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
-  readJson('social-links.json')
+  readJson('social-links.json'), readJson('contact-channels.json')
 ]);
 
 for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/assets/icons/favicon.svg']) {
@@ -44,6 +44,13 @@ if (Array.isArray(socialLinks)) for (const item of socialLinks) {
   try { await access(path.join(root, 'src', item.icon)); }
   catch { errors.push(`Falta el icono social: ${item.icon}`); }
 }
+if (!Array.isArray(contactChannels) || contactChannels.length < 1) errors.push('contact-channels.json debe incluir canales');
+if (Array.isArray(contactChannels)) for (const item of contactChannels) {
+  if (!item.id || !item.label || !item.icon) errors.push('Cada canal de contacto requiere id, label e icon');
+  if (item.url && !/^https:\/\//.test(item.url) && !/^mailto:/.test(item.url)) errors.push(`URL de contacto inválida: ${item.id}`);
+  try { await access(path.join(root, 'src', item.icon)); }
+  catch { errors.push(`Falta el icono de contacto: ${item.icon}`); }
+}
 
 const packageData = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
 if (packageData.author !== author?.name) errors.push('package.json tiene un autor inconsistente');
@@ -54,7 +61,7 @@ if (!licenseText.includes(`Copyright (c) 2026 ${author?.name}`)) errors.push('LI
 const publicSources = [
   'README.md', 'scripts/build.mjs', 'src/data/company.json', 'src/data/author.json',
   'src/data/legal.json', 'src/data/services.json', 'src/data/portfolio.json',
-  'src/data/site.json', 'src/data/social-links.json'
+  'src/data/site.json', 'src/data/social-links.json', 'src/data/contact-channels.json'
 ];
 const forbiddenAuthors = /(?:author|autor|desarrollo|developed|created|creado)[^\n]{0,50}(ChatGPT|OpenAI|Claude|Gemini|Copilot|Artificial Intelligence|\bAI\b)/i;
 for (const file of publicSources) {

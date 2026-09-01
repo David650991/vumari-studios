@@ -1,0 +1,16 @@
+[
+  {
+    "id": "email",
+    "label": "Correo electrónico",
+    "icon": "assets/icons/contact/vumari-contact-email.png",
+    "value": null,
+    "url": null
+  },
+  {
+    "id": "location",
+    "label": "Ubicación en Google Maps",
+    "icon": "assets/icons/contact/vumari-contact-location.png",
+    "value": "Tres Valles, Veracruz",
+    "url": null
+  }
+]
