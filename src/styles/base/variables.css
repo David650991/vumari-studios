@@ -15,7 +15,7 @@
   --gradient-brand: linear-gradient(110deg, var(--color-orange), var(--color-magenta) 42%, var(--color-purple) 70%, var(--color-cyan));
   --shadow-soft: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
   --shadow-card: 0 1.25rem 3.5rem rgba(0, 0, 0, 0.22);
-  --gradient-purple: linear-gradient(135deg, rgba(111,44,255,.22), rgba(239,10,168,.08));
+  --gradient-purple: linear-gradient(135deg, rgba(111, 44, 255, .22), rgba(239, 10, 168, .08));
   --radius-sm: 0.7rem;
   --radius-md: 1rem;
   --radius-lg: 1.4rem;
@@ -25,9 +25,9 @@
   --space-4: 1.5rem;
   --space-5: 2rem;
   --space-6: 3rem;
-  --space-7: 4.5rem;
-  --space-8: 7rem;
-  --container: 72rem;
+  --space-7: 4.25rem;
+  --space-8: 6.25rem;
+  --container: 78rem;
   --font-sans: Aptos, "Segoe UI Variable", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-display: Aptos Display, Aptos, "Segoe UI Variable Display", "Segoe UI", sans-serif;
 }

@@ -119,3 +119,24 @@ test('asocia cada herramienta y plataforma con su icono modular', async () => {
     'assets/icons/platforms/vumari-platform-youtube-shorts.png'
   ]) assert.ok(html.includes(file), `Falta el icono modular: ${file}`);
 });
+
+test('presenta una galería editorial sin confundir conceptos con clientes reales', async () => {
+  const html = await readFile(path.join(dist, 'index.html'), 'utf8');
+  assert.equal((html.match(/<article class="project-card/g) ?? []).length, 6);
+  assert.match(html, /Proyecto propio/);
+  assert.match(html, /Trabajo para cliente/);
+  assert.match(html, /Proyecto demostrativo/);
+  assert.match(html, /Concepto visual/);
+  assert.doesNotMatch(html, /class="idea-list"/);
+});
+
+test('ofrece estados de teclado y detalle legible para plataformas y herramientas', async () => {
+  const html = await readFile(path.join(dist, 'index.html'), 'utf8');
+  const css = await readFile(path.join(dist, 'styles/pages/home.css'), 'utf8');
+  assert.equal((html.match(/class="platform-card" tabindex="0"/g) ?? []).length, 7);
+  for (const detail of ['Diseño y piezas publicitarias.', 'Edición y contenido vertical.', 'Desarrollo y soluciones digitales.']) {
+    assert.ok(html.includes(detail));
+  }
+  assert.match(css, /\.platform-card:is\(:hover, :focus-visible\)/);
+  assert.match(css, /@media \(max-width: 27rem\)/);
+});
