@@ -1,0 +1,9 @@
+.hero { min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(4rem, 10vw, 7rem); position: relative; }
+.hero::before { background: radial-gradient(circle, rgba(239,10,168,.2), transparent 60%); content: ""; height: 40rem; position: absolute; right: -16rem; top: -12rem; width: 40rem; }
+.hero-grid { align-items: center; display: grid; gap: var(--space-6); position: relative; }
+.hero-copy { display: grid; gap: var(--space-4); }
+.hero-mark { filter: drop-shadow(0 2rem 4rem rgba(111,44,255,.24)); margin-inline: auto; max-height: 31rem; object-fit: contain; }
+.idea-list { display: grid; gap: .75rem; grid-template-columns: repeat(2, 1fr); list-style: none; }
+.idea-list li { border-bottom: 1px solid var(--color-border); padding-block: .8rem; }
+.cta-panel { background: linear-gradient(130deg, rgba(111,44,255,.2), rgba(239,10,168,.12)); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 4rem); }
+@media (min-width: 56rem) { .hero-grid { grid-template-columns: 1.25fr .75fr; } .idea-list { grid-template-columns: repeat(3, 1fr); } }

@@ -1,0 +1,8 @@
+.form { display: grid; gap: var(--space-4); }
+.field { display: grid; gap: .45rem; }
+.field label, .fieldset legend { font-weight: 750; }
+.field input, .field textarea, .field select { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: .65rem; color: var(--color-text); padding: .8rem .9rem; width: 100%; }
+.field textarea { min-height: 9rem; resize: vertical; }
+.fieldset { border: 1px solid var(--color-border); border-radius: var(--radius-sm); display: grid; gap: .6rem; padding: 1rem; }
+.check { align-items: start; display: flex; gap: .6rem; }
+.form-note, .form-status { color: var(--color-muted); font-size: .92rem; }

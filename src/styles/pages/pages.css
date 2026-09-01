@@ -1,0 +1,11 @@
+.page-hero { padding-block: clamp(4rem, 10vw, 7rem); }
+.page-hero .container { display: grid; gap: var(--space-4); }
+.service-detail { display: grid; gap: var(--space-4); }
+.service-detail + .service-detail { border-top: 1px solid var(--color-border); margin-top: var(--space-6); padding-top: var(--space-6); }
+.project { align-items: center; display: grid; gap: var(--space-5); }
+.project img { border-radius: var(--radius-md); max-height: 31rem; object-fit: contain; width: 100%; }
+.timeline { counter-reset: step; display: grid; gap: 1rem; list-style: none; }
+.timeline li { border-left: 2px solid var(--color-purple); padding: .2rem 0 .2rem 1rem; }
+.legal { color: var(--color-muted); }
+.legal h2 { color: var(--color-text); font-size: 1.6rem; margin: 2rem 0 .8rem; }
+@media (min-width: 56rem) { .project { grid-template-columns: .8fr 1.2fr; } }

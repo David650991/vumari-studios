@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "publicidad",
+    "name": "Publicidad",
+    "summary": "Campañas, anuncios, promociones y comunicación comercial para presentar una oferta con claridad y coherencia.",
+    "problem": "Cuando una promoción no explica bien qué ofrece, para quién es o cómo contratarla, pierde atención antes de generar interés.",
+    "deliverables": ["Concepto de campaña", "Piezas publicitarias", "Adaptaciones para canales definidos"]
+  },
+  {
+    "slug": "produccion-audiovisual",
+    "name": "Producción audiovisual",
+    "summary": "Comerciales, videos corporativos, entrevistas y producciones planeadas de acuerdo con el objetivo del proyecto.",
+    "problem": "Una buena idea necesita guion, producción y edición consistentes para convertirse en una pieza que la audiencia entienda.",
+    "deliverables": ["Preproducción", "Grabación", "Edición y versiones acordadas"]
+  },
+  {
+    "slug": "contenido-digital",
+    "name": "Contenido digital",
+    "summary": "Reels, Shorts, TikTok, fotografía y contenido pensado para los formatos donde una marca mantiene presencia.",
+    "problem": "Publicar sin una línea visual ni un propósito definido hace difícil sostener una comunicación reconocible.",
+    "deliverables": ["Ideas y guiones", "Fotografía o video", "Piezas listas para publicar"]
+  },
+  {
+    "slug": "diseno",
+    "name": "Diseño",
+    "summary": "Identidad visual, materiales publicitarios y piezas digitales que organizan la forma en que una marca se presenta.",
+    "problem": "Una comunicación visual inconsistente puede hacer que incluso un buen servicio se perciba poco claro o improvisado.",
+    "deliverables": ["Dirección visual", "Sistema de piezas", "Archivos finales acordados"]
+  },
+  {
+    "slug": "marketing-digital",
+    "name": "Marketing digital",
+    "summary": "Planeación, estrategia de contenidos y organización de la presencia digital con prioridades realistas.",
+    "problem": "Sin objetivos y criterios de publicación, el esfuerzo digital se dispersa y resulta difícil saber qué mantener o ajustar.",
+    "deliverables": ["Diagnóstico", "Plan de contenidos", "Recomendaciones de ejecución"]
+  },
+  {
+    "slug": "desarrollo-web",
+    "name": "Desarrollo web",
+    "summary": "Sitios web, landing pages, catálogos y herramientas digitales enfocadas en informar y facilitar acciones concretas.",
+    "problem": "Depender sólo de redes sociales limita el control sobre la información, la experiencia y los canales de contacto.",
+    "deliverables": ["Arquitectura de información", "Diseño responsive", "Sitio o herramienta publicada"]
+  },
+  {
+    "slug": "tecnologia",
+    "name": "Tecnología",
+    "summary": "Soluciones digitales disponibles conforme sean desarrolladas y validadas para necesidades empresariales concretas.",
+    "problem": "Algunos procesos repetitivos pueden simplificarse, pero primero necesitan entenderse antes de proponer una herramienta.",
+    "deliverables": ["Análisis del proceso", "Propuesta técnica", "Implementación cuando el alcance esté disponible"],
+    "availability": "consultation"
+  }
+]

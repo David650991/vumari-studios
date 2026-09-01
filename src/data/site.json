@@ -1,0 +1,18 @@
+{
+  "navigation": [
+    {"label": "Inicio", "href": "index.html"},
+    {"label": "Servicios", "href": "servicios.html"},
+    {"label": "Portafolio", "href": "portafolio.html"},
+    {"label": "Nosotros", "href": "nosotros.html"},
+    {"label": "Contacto", "href": "contacto.html"}
+  ],
+  "projectIdeas": [
+    "Comercial para restaurante", "Promoción para tienda", "Reel para una barbería",
+    "Fotografía de producto", "Página web", "Cobertura de evento", "Entrevista",
+    "Podcast", "Identidad de marca"
+  ],
+  "process": [
+    "Cuéntanos tu idea", "Analizamos el proyecto", "Definimos alcance y propuesta",
+    "Producción", "Revisión", "Entrega"
+  ]
+}

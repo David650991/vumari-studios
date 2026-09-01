@@ -1,0 +1,30 @@
+# Dependencias y entornos locales
+node_modules/
+.venv/
+venv/
+
+# Salidas generadas
+dist/
+build/
+.cache/
+
+# Cobertura y pruebas
+coverage/
+.pytest_cache/
+
+# Variables y secretos locales
+.env
+.env.*
+!.env.example
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# Registros
+*.log
+

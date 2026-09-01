@@ -1,0 +1,19 @@
+[
+  {
+    "slug": "identidad-vumari-studios",
+    "name": "Identidad de VUMARI STUDIOS",
+    "client": "VUMARI STUDIOS",
+    "category": "Identidad visual",
+    "date": "2026",
+    "status": "internal",
+    "statusLabel": "Proyecto propio",
+    "summary": "Sistema visual de la marca construido alrededor de una identidad dinámica, fluida y tecnológica.",
+    "problem": "Definir una presencia capaz de integrar producción, publicidad, diseño y tecnología sin reducir la marca a una sola disciplina.",
+    "objective": "Crear una base visual reconocible y flexible para medios digitales y materiales de comunicación.",
+    "concept": "Movimiento, energía creativa y transición entre ideas y ejecución.",
+    "production": "Desarrollo de logotipo, isotipo, paleta y aplicaciones iniciales.",
+    "deliverables": ["Logotipo", "Isotipo", "Paleta cromática", "Aplicaciones de referencia"],
+    "result": null,
+    "image": "assets/images/brand/vumari-logo-primary.png"
+  }
+]

@@ -1,0 +1,10 @@
+.container { margin-inline: auto; max-width: var(--container); padding-inline: clamp(1.15rem, 4vw, 2rem); }
+.section { padding-block: clamp(4.5rem, 10vw, var(--space-8)); }
+.section--soft { background: var(--color-bg-soft); }
+.section-heading { display: grid; gap: var(--space-3); margin-bottom: var(--space-6); }
+.grid { display: grid; gap: var(--space-4); }
+.grid--2, .grid--3 { grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .grid--2 { grid-template-columns: repeat(2, 1fr); } .grid--3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .grid--3 { grid-template-columns: repeat(3, 1fr); } }
+.skip-link { background: var(--color-text); color: var(--color-bg); left: 1rem; padding: 0.65rem 1rem; position: fixed; top: -5rem; z-index: 100; }
+.skip-link:focus { top: 1rem; }
