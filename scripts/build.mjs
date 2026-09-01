@@ -3,9 +3,10 @@ import path from 'node:path';
 
 const root = process.cwd();
 const readJson = async file => JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8'));
-const [company, author, legal, services, portfolio, site] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
-  readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
+  readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
+  readJson('social-links.json')
 ]);
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
@@ -14,7 +15,14 @@ await mkdir(dist, { recursive: true });
 const escape = value => String(value).replace(/[&<>"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
 const absolute = file => new URL(file, company.siteUrl).href;
 const nav = current => site.navigation.map(item => `<li><a href="${item.href}"${item.href === current ? ' aria-current="page"' : ''}>${item.label}</a></li>`).join('');
-const socialLinks = Object.entries(company.social).filter(([, url]) => Boolean(url));
+const activeSocialLinks = socialLinks.filter(item => Boolean(item.url));
+const socialItem = item => {
+  const content = `<img src="${item.icon}" alt="" width="32" height="32" loading="lazy"><span><strong>${item.label}</strong><small>${item.url ? 'Visitar perfil' : 'Próximamente'}</small></span>`;
+  return item.url
+    ? `<li><a class="social-item" href="${item.url}" rel="me noopener">${content}</a></li>`
+    : `<li class="social-item social-item--pending" aria-label="${item.label}: próximamente">${content}</li>`;
+};
+const socialList = className => `<ul class="${className}" aria-label="Redes sociales de VUMARI STUDIOS">${socialLinks.map(socialItem).join('')}</ul>`;
 
 function header(current) {
   return `<a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -26,11 +34,10 @@ function header(current) {
 }
 
 function footer() {
-  const socials = socialLinks.length ? `<ul class="footer-links">${socialLinks.map(([name,url]) => `<li><a href="${url}" rel="me noopener">${name}</a></li>`).join('')}</ul>` : '';
   return `<footer class="site-footer"><div class="container"><div class="footer-grid">
     <div><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
     <nav aria-label="Navegación secundaria"><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
-  </div>${socials}<p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. ${company.brand} es la identidad comercial. Desarrollo técnico: ${escape(author.name)}.</p></div></footer>`;
+  </div>${socialList('social-list social-list--footer')}<p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. ${company.brand} es la identidad comercial. Desarrollo técnico: ${escape(author.name)}.</p></div></footer>`;
 }
 
 function schema() {
@@ -40,7 +47,8 @@ function schema() {
     logo: absolute('assets/images/brand/vumari-logo-primary.png'),
     areaServed: ['Tres Valles', 'Veracruz', 'México'],
     address: {'@type':'PostalAddress', addressLocality: company.location.city, addressRegion: company.location.state, addressCountry: 'MX'},
-    founder: company.founders.map(name => ({'@type':'Person', name}))
+    founder: company.founders.map(name => ({'@type':'Person', name})),
+    ...(activeSocialLinks.length ? {sameAs: activeSocialLinks.map(item => item.url)} : {})
   });
 }
 
@@ -88,7 +96,7 @@ const pages = [
   },
   {
     file:'contacto.html', title:`Contacto | ${company.brand}`, description:'Contacta a VUMARI STUDIOS para conversar sobre publicidad, producción, contenido, diseño o desarrollo web.',
-    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Contacto</p><h1>Una conversación clara es el primer paso.</h1><p class="lead">Atendemos de forma digital desde Tres Valles, Veracruz, y evaluamos trabajos presenciales según el proyecto.</p><div class="actions">${quoteButton}</div></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><h2>Canales oficiales</h2>${company.email ? `<p><a href="mailto:${company.email}">${company.email}</a></p>` : '<p>Correo: pendiente de configuración.</p>'}${company.whatsapp ? `<p><a href="https://wa.me/${company.whatsapp}">WhatsApp</a></p>` : '<p>WhatsApp: pendiente de configuración.</p>'}<p>Las redes sólo aparecerán cuando tengan una URL oficial válida.</p></article><article class="card"><h2>Ubicación y cobertura</h2><p>Tres Valles, Veracruz, México.</p><p>Atención principalmente digital para clientes de la región y de otras partes de México.</p></article></div></section>`
+    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Contacto</p><h1>Una conversación clara es el primer paso.</h1><p class="lead">Atendemos de forma digital desde Tres Valles, Veracruz, y evaluamos trabajos presenciales según el proyecto.</p><div class="actions">${quoteButton}</div></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><h2>Canales oficiales</h2>${company.email ? `<p><a href="mailto:${company.email}">${company.email}</a></p>` : '<p>Correo: pendiente de configuración.</p>'}<p>Los perfiles se activarán en cuanto exista una dirección oficial confirmada.</p>${socialList('social-list social-list--contact')}</article><article class="card"><h2>Ubicación y cobertura</h2><p>Tres Valles, Veracruz, México.</p><p>Atención principalmente digital para clientes de la región y de otras partes de México.</p></article></div></section>`
   },
   {
     file:'privacidad.html', title:`Aviso de privacidad | ${company.brand}`, description:'Información sobre el tratamiento de datos compartidos con VUMARI STUDIOS mediante sus formularios de contacto.',

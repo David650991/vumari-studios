@@ -1,0 +1,38 @@
+[
+  {
+    "id": "facebook",
+    "label": "Facebook",
+    "icon": "assets/icons/social/vumari-social-facebook.png",
+    "url": null
+  },
+  {
+    "id": "instagram",
+    "label": "Instagram",
+    "icon": "assets/icons/social/vumari-social-instagram.png",
+    "url": null
+  },
+  {
+    "id": "tiktok",
+    "label": "TikTok",
+    "icon": "assets/icons/social/vumari-social-tiktok.png",
+    "url": null
+  },
+  {
+    "id": "whatsapp",
+    "label": "WhatsApp",
+    "icon": "assets/icons/social/vumari-social-whatsapp.png",
+    "url": null
+  },
+  {
+    "id": "youtube",
+    "label": "YouTube",
+    "icon": "assets/icons/social/vumari-social-youtube.png",
+    "url": null
+  },
+  {
+    "id": "x",
+    "label": "X",
+    "icon": "assets/icons/social/vumari-social-x.png",
+    "url": null
+  }
+]

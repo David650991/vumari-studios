@@ -50,7 +50,20 @@ test('los enlaces internos HTML tienen destino generado', async () => {
 
 test('no presenta contactos ni redes sin URL configurada', async () => {
   const company = JSON.parse(await readFile(path.join(root, 'src/data/company.json'), 'utf8'));
+  const socialLinks = JSON.parse(await readFile(path.join(root, 'src/data/social-links.json'), 'utf8'));
+  const html = await readFile(path.join(dist, 'contacto.html'), 'utf8');
   assert.equal(company.email, null);
   assert.equal(company.whatsapp, null);
-  assert.ok(Object.values(company.social).every(value => value === null));
+  assert.ok(socialLinks.every(item => item.url === null));
+  assert.equal((html.match(/social-item--pending/g) ?? []).length, socialLinks.length * 2);
+  assert.doesNotMatch(html, /href="null"/);
+});
+
+test('incluye todos los canales sociales desde una fuente modular', async () => {
+  const socialLinks = JSON.parse(await readFile(path.join(root, 'src/data/social-links.json'), 'utf8'));
+  const html = await readFile(path.join(dist, 'contacto.html'), 'utf8');
+  for (const item of socialLinks) {
+    assert.match(html, new RegExp(`>${item.label}<`));
+    assert.match(html, new RegExp(item.icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
 });

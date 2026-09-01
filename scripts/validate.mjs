@@ -7,9 +7,10 @@ const readJson = async file => {
   try { return JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8')); }
   catch (error) { errors.push(`${file}: ${error.message}`); return null; }
 };
-const [company, author, legal, services, portfolio, site] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
-  readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
+  readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
+  readJson('social-links.json')
 ]);
 
 for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/assets/icons/favicon.svg']) {
@@ -18,9 +19,6 @@ for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/asse
 if (company) {
   for (const key of ['brand', 'slogan', 'siteUrl']) if (!company[key]) errors.push(`company.json requiere ${key}`);
   if (!/^https:\/\//.test(company.siteUrl)) errors.push('siteUrl debe usar HTTPS');
-  for (const [network, url] of Object.entries(company.social ?? {})) {
-    if (url && !/^https:\/\//.test(url)) errors.push(`URL social inválida: ${network}`);
-  }
 }
 if (author) {
   if (author.name !== 'David Vidal Ramírez') errors.push('El autor técnico debe ser David Vidal Ramírez');
@@ -39,6 +37,13 @@ if (Array.isArray(portfolio)) for (const project of portfolio) {
   if (project.result && typeof project.result !== 'string') errors.push(`Resultado inválido en proyecto: ${project.slug}`);
 }
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
+if (!Array.isArray(socialLinks) || socialLinks.length < 1) errors.push('social-links.json debe incluir canales');
+if (Array.isArray(socialLinks)) for (const item of socialLinks) {
+  if (!item.id || !item.label || !item.icon) errors.push('Cada red requiere id, label e icon');
+  if (item.url && !/^https:\/\//.test(item.url)) errors.push(`URL social inválida: ${item.id}`);
+  try { await access(path.join(root, 'src', item.icon)); }
+  catch { errors.push(`Falta el icono social: ${item.icon}`); }
+}
 
 const packageData = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
 if (packageData.author !== author?.name) errors.push('package.json tiene un autor inconsistente');
@@ -48,7 +53,8 @@ if (!licenseText.includes(`Copyright (c) 2026 ${author?.name}`)) errors.push('LI
 
 const publicSources = [
   'README.md', 'scripts/build.mjs', 'src/data/company.json', 'src/data/author.json',
-  'src/data/legal.json', 'src/data/services.json', 'src/data/portfolio.json', 'src/data/site.json'
+  'src/data/legal.json', 'src/data/services.json', 'src/data/portfolio.json',
+  'src/data/site.json', 'src/data/social-links.json'
 ];
 const forbiddenAuthors = /(?:author|autor|desarrollo|developed|created|creado)[^\n]{0,50}(ChatGPT|OpenAI|Claude|Gemini|Copilot|Artificial Intelligence|\bAI\b)/i;
 for (const file of publicSources) {
