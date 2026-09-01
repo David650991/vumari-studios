@@ -43,9 +43,10 @@ function header(current) {
 
 function footer() {
   return `<footer class="site-footer"><div class="container"><div class="footer-grid">
-    <div><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
-    <nav aria-label="Navegación secundaria"><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
-  </div>${socialList('social-list social-list--footer')}<p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. ${company.brand} es la identidad comercial. Desarrollo técnico: ${escape(author.name)}.</p></div></footer>`;
+    <div class="footer-brand"><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
+    <nav class="footer-navigation" aria-label="Navegación secundaria"><p class="footer-title">Explorar</p><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
+    <div class="footer-social"><p class="footer-title">Conecta con VUMARI</p>${socialList('social-list social-list--footer')}<p class="footer-pending">Perfiles oficiales en preparación.</p></div>
+  </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. Todos los derechos reservados.</p><p class="copyright">${company.brand} · Desarrollo técnico: ${escape(author.name)}.</p></div></div></footer>`;
 }
 
 function schema() {
