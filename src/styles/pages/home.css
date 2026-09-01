@@ -18,9 +18,9 @@
 .service-card__link span { color: var(--color-cyan); }
 .section-heading--split { gap: 1.5rem; }
 .platform-grid { display: grid; gap: .75rem; }
-.platform-card { border-bottom: 1px solid var(--color-border); display: grid; gap: .25rem; grid-template-columns: 2.4rem 1fr; padding: 1.1rem .25rem; transition: background-color .2s ease, padding .2s ease; }
+.platform-card { align-items: center; border-bottom: 1px solid var(--color-border); display: grid; gap: .8rem; grid-template-columns: 2.8rem 1fr; padding: 1.1rem .25rem; transition: background-color .2s ease, padding .2s ease; }
 .platform-card:hover { background: linear-gradient(90deg, rgba(111,44,255,.09), transparent); padding-inline: .8rem; }
-.platform-card__index { color: var(--color-magenta); font-size: .68rem; font-weight: 780; grid-row: 1 / 3; padding-top: .2rem; }
+.platform-card > img { height: 2.35rem; object-fit: contain; width: 2.35rem; }
 .platform-card h3 { font-size: 1.05rem; }
 .platform-card p { color: var(--color-muted); font-size: .87rem; }
 .content-capabilities { display: grid; gap: var(--space-6); }
@@ -29,8 +29,11 @@
 .tool-panel { background: linear-gradient(145deg, rgba(111,44,255,.15), rgba(8,6,14,.62)); border: 1px solid rgba(157,32,255,.24); border-radius: var(--radius-lg); padding: clamp(1.5rem, 4vw, 2.6rem); }
 .tool-panel > p:not(.eyebrow) { color: var(--color-muted); margin-top: 1rem; }
 .tool-list { display: grid; gap: 0; grid-template-columns: repeat(2, 1fr); list-style: none; margin-top: 1.5rem; }
-.tool-list li { align-items: center; border-top: 1px solid var(--color-border); display: flex; font-weight: 680; gap: .65rem; padding: .75rem .2rem; }
-.tool-list span { color: var(--color-cyan); font-size: .65rem; }
+.tool-list li { align-items: center; border-top: 1px solid var(--color-border); display: flex; gap: .7rem; padding: .72rem .2rem; }
+.tool-list strong { font-size: .88rem; font-weight: 680; }
+.tool-logo { align-items: center; display: flex; flex: 0 0 auto; height: 2rem; justify-content: center; width: 2rem; }
+.tool-logo img { height: 1.7rem; object-fit: contain; width: 1.7rem; }
+.tool-logo--light { background: #fff; border-radius: .45rem; padding: .25rem; }
 .idea-list { counter-reset: project-idea; display: grid; gap: 0; grid-template-columns: repeat(2, 1fr); list-style: none; }
 .idea-list li { align-items: center; border-bottom: 1px solid var(--color-border); counter-increment: project-idea; display: flex; gap: .8rem; min-height: 3.5rem; padding-block: .8rem; }
 .idea-list li::before { color: var(--color-magenta); content: counter(project-idea, decimal-leading-zero); font-size: .68rem; font-weight: 760; letter-spacing: .08em; }

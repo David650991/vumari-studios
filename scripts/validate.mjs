@@ -16,6 +16,18 @@ const [company, author, legal, services, portfolio, site, socialLinks, contactCh
 for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/assets/icons/favicon.svg']) {
   try { await access(path.join(root, file)); } catch { errors.push(`Falta el recurso requerido: ${file}`); }
 }
+for (const file of [
+  'src/assets/icons/tools/vumari-tool-canva.png',
+  'src/assets/icons/tools/vumari-tool-capcut.png',
+  'src/assets/icons/tools/vumari-tool-youtube.png',
+  'src/assets/icons/tools/vumari-tool-meta.png',
+  'src/assets/icons/tools/vumari-tool-google.png',
+  'src/assets/icons/tools/vumari-tool-github.png',
+  'src/assets/icons/platforms/vumari-platform-youtube-shorts.png'
+]) {
+  try { await access(path.join(root, file)); }
+  catch { errors.push(`Falta el recurso visual requerido: ${file}`); }
+}
 if (company) {
   for (const key of ['brand', 'slogan', 'siteUrl']) if (!company[key]) errors.push(`company.json requiere ${key}`);
   if (!/^https:\/\//.test(company.siteUrl)) errors.push('siteUrl debe usar HTTPS');

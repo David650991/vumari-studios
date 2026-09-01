@@ -106,3 +106,16 @@ test('mantiene la nueva jerarquía visual y comunicación de capacidades', async
   assert.match(css, /@media \(max-width: 27rem\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
+
+test('asocia cada herramienta y plataforma con su icono modular', async () => {
+  const html = await readFile(path.join(dist, 'index.html'), 'utf8');
+  for (const file of [
+    'assets/icons/tools/vumari-tool-canva.png',
+    'assets/icons/tools/vumari-tool-capcut.png',
+    'assets/icons/tools/vumari-tool-youtube.png',
+    'assets/icons/tools/vumari-tool-meta.png',
+    'assets/icons/tools/vumari-tool-google.png',
+    'assets/icons/tools/vumari-tool-github.png',
+    'assets/icons/platforms/vumari-platform-youtube-shorts.png'
+  ]) assert.ok(html.includes(file), `Falta el icono modular: ${file}`);
+});
