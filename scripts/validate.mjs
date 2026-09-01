@@ -7,8 +7,9 @@ const readJson = async file => {
   try { return JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8')); }
   catch (error) { errors.push(`${file}: ${error.message}`); return null; }
 };
-const [company, services, portfolio, site] = await Promise.all([
-  readJson('company.json'), readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
+const [company, author, legal, services, portfolio, site] = await Promise.all([
+  readJson('company.json'), readJson('author.json'), readJson('legal.json'),
+  readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
 ]);
 
 for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/assets/icons/favicon.svg']) {
@@ -21,6 +22,15 @@ if (company) {
     if (url && !/^https:\/\//.test(url)) errors.push(`URL social inválida: ${network}`);
   }
 }
+if (author) {
+  if (author.name !== 'David Vidal Ramírez') errors.push('El autor técnico debe ser David Vidal Ramírez');
+  if (author.github !== 'David650991') errors.push('El usuario público del autor debe ser David650991');
+}
+if (legal) {
+  if (legal.copyrightYear !== 2026) errors.push('El año de copyright debe ser 2026');
+  if (legal.copyrightHolder !== author?.name) errors.push('El titular de copyright debe coincidir con el autor técnico');
+  if (legal.licenseStatus !== 'PROPRIETARY' || legal.licenseIdentifier !== 'UNLICENSED') errors.push('La licencia debe conservar la decisión propietaria actual');
+}
 if (!Array.isArray(services) || services.length < 1) errors.push('services.json debe incluir servicios');
 if (Array.isArray(services) && new Set(services.map(x => x.slug)).size !== services.length) errors.push('Los slugs de servicios deben ser únicos');
 const validStatuses = new Set(['client', 'internal', 'concept']);
@@ -29,6 +39,23 @@ if (Array.isArray(portfolio)) for (const project of portfolio) {
   if (project.result && typeof project.result !== 'string') errors.push(`Resultado inválido en proyecto: ${project.slug}`);
 }
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
+
+const packageData = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+if (packageData.author !== author?.name) errors.push('package.json tiene un autor inconsistente');
+if (packageData.private !== true || packageData.license !== legal?.licenseIdentifier) errors.push('package.json tiene una configuración de licencia inconsistente');
+const licenseText = await readFile(path.join(root, 'LICENSE'), 'utf8');
+if (!licenseText.includes(`Copyright (c) 2026 ${author?.name}`)) errors.push('LICENSE no contiene el copyright requerido');
+
+const publicSources = [
+  'README.md', 'scripts/build.mjs', 'src/data/company.json', 'src/data/author.json',
+  'src/data/legal.json', 'src/data/services.json', 'src/data/portfolio.json', 'src/data/site.json'
+];
+const forbiddenAuthors = /(?:author|autor|desarrollo|developed|created|creado)[^\n]{0,50}(ChatGPT|OpenAI|Claude|Gemini|Copilot|Artificial Intelligence|\bAI\b)/i;
+for (const file of publicSources) {
+  const content = await readFile(path.join(root, file), 'utf8');
+  if (forbiddenAuthors.test(content)) errors.push(`Atribución técnica incorrecta en ${file}`);
+  if (/Lorem ipsum/i.test(content)) errors.push(`Texto placeholder detectado en ${file}`);
+}
 
 if (errors.length) {
   console.error(errors.map(error => `- ${error}`).join('\n'));

@@ -3,8 +3,9 @@ import path from 'node:path';
 
 const root = process.cwd();
 const readJson = async file => JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8'));
-const [company, services, portfolio, site] = await Promise.all([
-  readJson('company.json'), readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
+const [company, author, legal, services, portfolio, site] = await Promise.all([
+  readJson('company.json'), readJson('author.json'), readJson('legal.json'),
+  readJson('services.json'), readJson('portfolio.json'), readJson('site.json')
 ]);
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
@@ -29,7 +30,7 @@ function footer() {
   return `<footer class="site-footer"><div class="container"><div class="footer-grid">
     <div><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
     <nav aria-label="Navegación secundaria"><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
-  </div>${socials}<p class="copyright">© ${new Date().getFullYear()} ${company.brand}. Desarrollo técnico: David Vidal Ramírez.</p></div></footer>`;
+  </div>${socials}<p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. ${company.brand} es la identidad comercial. Desarrollo técnico: ${escape(author.name)}.</p></div></footer>`;
 }
 
 function schema() {
@@ -47,9 +48,9 @@ function layout({title, description, file, content}) {
   const canonical = absolute(file);
   return `<!doctype html><html lang="es-MX"><head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escape(title)}</title><meta name="description" content="${escape(description)}">
+  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${escape(author.name)}">
   <link rel="canonical" href="${canonical}"><meta name="theme-color" content="#06050a">
-  <meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
+  <meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="${company.brand}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
   <link rel="icon" href="assets/icons/favicon.ico" sizes="any"><link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="stylesheet" href="styles/main.css"><script type="application/ld+json">${schema()}</script><script type="module" src="scripts/core/app.js"></script>

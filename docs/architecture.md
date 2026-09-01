@@ -1,3 +1,9 @@
+---
+project: VUMARI STUDIOS
+author: David Vidal Ramírez
+year: 2026
+---
+
 # Arquitectura
 
 El proyecto es un sitio estático generado con Node.js, sin framework de interfaz
@@ -20,4 +26,3 @@ ni dependencias de producción. `src/` contiene datos, recursos, CSS y JavaScrip
 3. El portafolio diferencia trabajos de cliente, propios y conceptuales.
 4. Los datos no confirmados permanecen nulos y no se muestran como reales.
 5. `dist/` se genera; no se edita ni versiona manualmente.
-

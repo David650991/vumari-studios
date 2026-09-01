@@ -1,3 +1,9 @@
+---
+project: VUMARI STUDIOS
+author: David Vidal Ramírez
+year: 2026
+---
+
 # Guía de contenido
 
 La voz de VUMARI STUDIOS es clara, profesional, directa y cercana. Los textos
@@ -14,4 +20,3 @@ o se registra internamente como `PENDIENTE DE DEFINIR`.
 - `concept`: demostración conceptual identificada expresamente.
 
 Los resultados sólo se incluyen cuando hay información verificable.
-

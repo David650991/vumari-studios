@@ -21,11 +21,20 @@ test('cada página tiene estructura, metadata y navegación accesible', async ()
     const html = await readFile(path.join(dist, file), 'utf8');
     assert.match(html, /<html lang="es-MX">/);
     assert.match(html, /<meta name="description"/);
+    assert.match(html, /<meta name="author" content="David Vidal Ramírez">/);
+    assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
     assert.match(html, /<link rel="canonical"/);
     assert.match(html, /<main id="contenido">/);
     assert.match(html, /aria-label="Navegación principal"/);
     assert.doesNotMatch(html, /Lorem ipsum/i);
   }
+});
+
+test('separa la marca pública de la autoría técnica', async () => {
+  const html = await readFile(path.join(dist, 'index.html'), 'utf8');
+  assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
+  assert.match(html, /Desarrollo técnico: David Vidal Ramírez/);
+  assert.doesNotMatch(html, /Desarrollo técnico: VUMARI STUDIOS/);
 });
 
 test('los enlaces internos HTML tienen destino generado', async () => {

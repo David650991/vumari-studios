@@ -1,5 +1,9 @@
 # VUMARI STUDIOS
 
+## VUMARI STUDIOS
+
+**Creamos ideas. Construimos presencia.**
+
 Sitio web oficial de VUMARI STUDIOS, estudio creativo con base en Tres Valles,
 Veracruz, México. La plataforma presentará servicios de publicidad, producción
 audiovisual, contenido digital, diseño, marketing y desarrollo web, y facilitará
@@ -75,8 +79,24 @@ La información empresarial compartida se centraliza en
 `src/data/company.json`. Los datos pendientes deben permanecer vacíos o
 marcados expresamente como pendientes; nunca deben completarse por suposición.
 
-## Autoría
+## Autor
 
-Marca: VUMARI STUDIOS.
+**David Vidal Ramírez**
 
-Desarrollo técnico: David Vidal Ramírez.
+Creador y desarrollador principal del proyecto.
+
+GitHub: [@David650991](https://github.com/David650991)
+
+## Propiedad intelectual
+
+El código original, arquitectura y documentación desarrollados específicamente
+para este repositorio corresponden a David Vidal Ramírez conforme a la licencia
+propietaria indicada en este proyecto.
+
+VUMARI STUDIOS constituye la identidad comercial asociada al sitio. Los recursos
+de terceros conservan los derechos correspondientes a sus titulares.
+
+## Autoría y avisos
+
+Consulta [AUTHORS.md](AUTHORS.md), [NOTICE](NOTICE) y [LICENSE](LICENSE) para la
+separación entre marca, autoría técnica y condiciones de uso.

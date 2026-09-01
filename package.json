@@ -15,5 +15,13 @@
     "node": ">=20"
   },
   "author": "David Vidal Ramírez",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/David650991/vumari-studios.git"
+  },
+  "bugs": {
+    "url": "https://github.com/David650991/vumari-studios/issues"
+  },
+  "homepage": "https://david650991.github.io/vumari-studios/"
 }

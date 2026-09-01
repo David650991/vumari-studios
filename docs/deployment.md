@@ -1,3 +1,9 @@
+---
+project: VUMARI STUDIOS
+author: David Vidal Ramírez
+year: 2026
+---
+
 # Despliegue
 
 El sitio se genera en `dist/` y se publica mediante GitHub Pages.
@@ -18,4 +24,3 @@ fuente. No se necesita guardar ninguna API key en el frontend.
 La URL canónica inicial es la de GitHub Pages. Antes de conectar un dominio
 comercial se debe actualizar `siteUrl` en `src/data/company.json`, configurar el
 DNS y añadir el archivo `CNAME` durante el build.
-
