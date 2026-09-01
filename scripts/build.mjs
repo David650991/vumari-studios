@@ -74,9 +74,26 @@ function layout({title, description, file, content}) {
   </head><body>${header(file)}<main id="contenido">${content}</main>${footer()}</body></html>`;
 }
 
-const serviceCards = services.map((s,i) => `<article class="card"><span class="card__number">0${i+1}</span><h3>${s.name}</h3><p>${s.summary}</p></article>`).join('');
+const featuredServiceSlugs = new Set(['marketing-digital', 'contenido-digital', 'produccion-audiovisual']);
+const serviceDisplayNames = {
+  'marketing-digital': 'Marketing y posicionamiento',
+  'contenido-digital': 'Contenido y redes sociales',
+  'produccion-audiovisual': 'Producción audiovisual',
+  'diseno': 'Diseño y branding',
+  'publicidad': 'Publicidad digital'
+};
+const orderedServices = [...services].sort((a, b) => Number(featuredServiceSlugs.has(b.slug)) - Number(featuredServiceSlugs.has(a.slug)));
+const serviceCards = orderedServices.map((service, index) => `<article class="card service-card${featuredServiceSlugs.has(service.slug) ? ' service-card--featured' : ''}"><span class="card__number">${String(index + 1).padStart(2, '0')}</span><p class="service-card__type">${featuredServiceSlugs.has(service.slug) ? 'Área principal' : 'Servicio complementario'}</p><h3>${serviceDisplayNames[service.slug] ?? service.name}</h3><p>${service.summary}</p><a class="service-card__link" href="servicios.html#${service.slug}">Conocer el servicio <span aria-hidden="true">↗</span></a></article>`).join('');
 const processCards = site.process.map((step,i) => `<li class="card"><span class="card__number">PASO ${i+1}</span><h3>${step}</h3></li>`).join('');
 const quoteButton = `<a class="button button--primary" href="cotizacion.html">Solicita una cotización</a>`;
+const platforms = [
+  ['Instagram', 'Reels · Historias · Carruseles'], ['Facebook', 'Contenido · Anuncios · Promociones'],
+  ['TikTok', 'Videos verticales · Tendencias'], ['YouTube', 'Videos · Miniaturas · Entrevistas'],
+  ['YouTube Shorts', 'Videos breves · Series'], ['X', 'Actualizaciones · Piezas gráficas'],
+  ['WhatsApp', 'Catálogos · Contenido promocional']
+];
+const formats = ['Reels', 'TikToks', 'YouTube Shorts', 'Comerciales', 'Videos corporativos', 'Entrevistas', 'Podcasts', 'Historias', 'Carruseles', 'Flyers', 'Miniaturas', 'Fotografía de producto'];
+const tools = ['Canva', 'CapCut', 'YouTube', 'Meta', 'Google', 'GitHub'];
 const projectMedia = project => project.media?.length
   ? `<div class="project-media" aria-label="Selección audiovisual de ${escape(project.name)}">${project.media.map(item => `<figure class="video-card"><video controls preload="none" poster="${item.poster}" playsinline aria-label="${escape(item.title)}"><source src="${item.src}" type="video/mp4">Tu navegador no puede reproducir este video.</video><figcaption>${escape(item.title)}</figcaption></figure>`).join('')}</div>`
   : `<img class="project-cover" src="${project.image}" alt="${escape(project.imageAlt ?? project.name)}" loading="lazy" width="1122" height="1402">`;
@@ -84,11 +101,13 @@ const projectMedia = project => project.media?.length
 const pages = [
   {
     file:'index.html', title:`${company.brand} | Agencia creativa en Tres Valles`, description:company.description,
-    content:`<section class="hero"><div class="container hero-grid"><div class="hero-brand"><img class="hero-mark" src="assets/images/brand/vumari-logo-primary.png" alt="Logotipo multicolor de VUMARI STUDIOS" width="1122" height="1402" fetchpriority="high"></div><div class="hero-copy"><p class="eyebrow">Estudio creativo · Tres Valles, Veracruz</p><h1>Ideas que toman <span class="gradient-text">forma y presencia.</span></h1><p class="lead">${company.description}</p><div class="actions"><a class="button button--primary" href="servicios.html">Conoce nuestros servicios</a>${quoteButton}</div></div></div></section>
-    <section class="section section--soft"><div class="container"><div class="section-heading"><p class="eyebrow">Lo que hacemos</p><h2>Una idea necesita más que una pieza bonita.</h2><p class="lead">Partimos del problema de comunicación y definimos qué conviene producir.</p></div><div class="grid grid--3 services-grid">${serviceCards}</div></div></section>
+    content:`<section class="hero"><div class="container hero-grid"><div class="hero-brand"><img class="hero-mark" src="assets/images/brand/vumari-logo-primary.png" alt="Logotipo multicolor de VUMARI STUDIOS" width="1122" height="1402" fetchpriority="high"></div><div class="hero-copy"><p class="eyebrow">Estudio creativo · Tres Valles, Veracruz</p><h1>Ideas que toman <span class="gradient-text">forma y presencia.</span></h1><p class="lead">Marketing, contenido y producción digital para marcas que quieren crecer, comunicar mejor y construir presencia.</p><p class="hero-specialties" aria-label="Especialidades">Marketing <span>·</span> Redes sociales <span>·</span> Video <span>·</span> Reels <span>·</span> YouTube <span>·</span> Diseño <span>·</span> Web</p><div class="actions"><a class="button button--primary" href="servicios.html">Conoce nuestros servicios</a>${quoteButton}</div></div></div></section>
+    <section class="section section--soft"><div class="container"><div class="section-heading"><p class="eyebrow">Lo que hacemos</p><h2>Estrategia, contenido y producción en un mismo estudio.</h2><p class="lead">Partimos del problema de comunicación y definimos qué conviene producir.</p></div><div class="services-grid services-grid--hierarchy">${serviceCards}</div></div></section>
+    <section class="section audience-section"><div class="container"><div class="section-heading section-heading--split"><div><p class="eyebrow">Plataformas</p><h2>Contenido para donde está tu audiencia.</h2></div><p class="lead">Cada canal pide un formato, un ritmo y una forma distinta de comunicar.</p></div><div class="platform-grid">${platforms.map(([name, detail], index) => `<article class="platform-card"><span class="platform-card__index">${String(index + 1).padStart(2, '0')}</span><h3>${name}</h3><p>${detail}</p></article>`).join('')}</div></div></section>
+    <section class="section section--soft"><div class="container content-capabilities"><div><div class="section-heading"><p class="eyebrow">Formatos</p><h2>Creamos contenido en distintos formatos.</h2></div><ul class="format-list">${formats.map(format => `<li>${format}</li>`).join('')}</ul></div><aside class="tool-panel"><p class="eyebrow">Flujo creativo</p><h2>Herramientas que forman parte de nuestro trabajo.</h2><p>Seleccionamos la herramienta según el formato, el canal y el alcance de cada proyecto.</p><ul class="tool-list">${tools.map((tool, index) => `<li><span aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>${tool}</li>`).join('')}</ul></aside></div></section>
     <section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Qué podemos crear</p><h2>Proyectos concretos para necesidades reales.</h2></div><ul class="idea-list">${site.projectIdeas.map(x=>`<li>${x}</li>`).join('')}</ul></div></section>
     <section class="section section--soft"><div class="container"><div class="section-heading"><p class="eyebrow">Proceso</p><h2>Claridad desde la primera conversación.</h2><p>Los tiempos y entregables se definen en cada propuesta según el alcance.</p></div><ol class="grid grid--3 process-grid">${processCards}</ol></div></section>
-    <section class="section"><div class="container cta-panel"><p class="eyebrow">Hablemos del proyecto</p><h2>Cuéntanos qué necesitas comunicar.</h2><p>No necesitas llegar con todo resuelto. Comparte el contexto y revisaremos qué alcance tiene sentido.</p><div class="actions">${quoteButton}<a class="button button--secondary" href="contacto.html">Ver contacto</a></div></div></section>`
+    <section class="section"><div class="container cta-panel"><p class="eyebrow">Hablemos del proyecto</p><h2>Cuéntanos qué necesitas comunicar.</h2><p class="cta-panel__lead">Una buena idea merece una estrategia, contenido y ejecución a la altura.</p><p>No necesitas llegar con todo resuelto. Comparte el contexto y revisaremos qué alcance tiene sentido.</p><div class="actions">${quoteButton}<a class="button button--secondary" href="contacto.html">Ver contacto</a></div></div></section>`
   },
   {
     file:'servicios.html', title:`Servicios | ${company.brand}`, description:'Publicidad, producción audiovisual, contenido, diseño, marketing y desarrollo web desde Tres Valles, Veracruz.',

@@ -1,10 +1,10 @@
-body { background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); font-size: 1rem; line-height: 1.62; text-rendering: optimizeLegibility; }
+body { background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); font-size: clamp(1rem, .25vw + .95rem, 1.08rem); line-height: 1.65; text-rendering: optimizeLegibility; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 720; line-height: 1.08; text-wrap: balance; }
 h1 { font-size: clamp(2.55rem, 8vw, 5.3rem); letter-spacing: -0.045em; }
 h2 { font-size: clamp(2rem, 5vw, 3.35rem); letter-spacing: -0.035em; }
-h3 { font-size: clamp(1.15rem, 2.2vw, 1.4rem); letter-spacing: -0.018em; }
+h3 { font-size: clamp(1.18rem, 2.2vw, 1.48rem); letter-spacing: -0.018em; }
 p { max-width: 68ch; }
 .eyebrow { align-items: center; color: var(--color-cyan); display: flex; font-size: 0.72rem; font-weight: 750; gap: .65rem; letter-spacing: 0.14em; text-transform: uppercase; }
 .eyebrow::before { background: var(--gradient-brand); content: ""; height: 1px; width: 1.8rem; }
-.lead { color: var(--color-muted); font-size: clamp(1.05rem, 2vw, 1.24rem); line-height: 1.65; }
+.lead { color: #c3becd; font-size: clamp(1.05rem, 2vw, 1.24rem); line-height: 1.65; }
 .gradient-text { background: var(--gradient-brand); background-clip: text; color: transparent; }

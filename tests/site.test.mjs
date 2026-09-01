@@ -91,3 +91,18 @@ test('publica el trabajo audiovisual con carga de video bajo demanda', async () 
     assert.ok(html.includes(item.poster));
   }
 });
+
+test('mantiene la nueva jerarquía visual y comunicación de capacidades', async () => {
+  const html = await readFile(path.join(dist, 'index.html'), 'utf8');
+  const css = await readFile(path.join(dist, 'styles/pages/home.css'), 'utf8');
+  for (const text of [
+    'Marketing, contenido y producción digital',
+    'Marketing y posicionamiento',
+    'Contenido para donde está tu audiencia',
+    'Creamos contenido en distintos formatos',
+    'Herramientas que forman parte de nuestro trabajo',
+    'Una buena idea merece una estrategia'
+  ]) assert.ok(html.includes(text), `Falta el mensaje visual: ${text}`);
+  assert.match(css, /@media \(max-width: 27rem\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
+});
