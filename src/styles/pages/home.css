@@ -1,10 +1,5 @@
-.hero { background: radial-gradient(ellipse at 50% 32%, #251044 0%, #110525 42%, #07030d 78%); isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
-.hero::before { background: linear-gradient(90deg, transparent, rgba(18,205,236,.9) 48%, #fff 50%, rgba(239,10,168,.9) 52%, transparent), linear-gradient(90deg, transparent, rgba(239,10,168,.7) 48%, rgba(255,116,24,.9) 50%, transparent 53%); background-size: 100% 2px, 100% 3px; box-shadow: 0 0 1.5rem rgba(18,205,236,.42), 0 0 2.5rem rgba(239,10,168,.3); content: ""; height: 1px; left: 6%; opacity: .75; position: absolute; right: 6%; top: 34%; z-index: 0; }
-.hero::after { background: radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 2px), radial-gradient(circle, rgba(18,205,236,.9) 0 1.5px, transparent 2.5px), radial-gradient(circle, rgba(239,10,168,.9) 0 1px, transparent 2px), radial-gradient(circle at 50% 34%, rgba(111,44,255,.72), transparent 22%); background-position: 2rem 3rem, 1rem 1.5rem, 4rem .5rem, 0 0; background-size: 7rem 5rem, 9rem 6rem, 11rem 7rem, 100% 100%; content: ""; inset: 0; opacity: .72; pointer-events: none; z-index: 0; }
-.hero-rays { inset: -42% -18%; pointer-events: none; position: absolute; z-index: 0; }
-.hero-rays::before, .hero-rays::after { content: ""; inset: 0; position: absolute; }
-.hero-rays::before { background: repeating-conic-gradient(from 237deg at 50% 50%, transparent 0deg 1.4deg, rgba(18,205,236,.72) 1.55deg 1.72deg, transparent 1.9deg 3.6deg, rgba(239,10,168,.65) 3.76deg 3.94deg, transparent 4.1deg 6.1deg, rgba(255,116,24,.52) 6.22deg 6.4deg, transparent 6.58deg 8.4deg); mask-image: radial-gradient(ellipse at center, transparent 0 6%, #000 13% 53%, transparent 73%); transform: scaleX(1.32); }
-.hero-rays::after { background: conic-gradient(from 266deg at 50% 50%, transparent 0 4deg, rgba(18,205,236,.23) 5deg 6deg, transparent 7deg 13deg, rgba(239,10,168,.2) 14deg 16deg, transparent 17deg 25deg, rgba(255,116,24,.16) 26deg 28deg, transparent 29deg 180deg, rgba(18,205,236,.18) 181deg 183deg, transparent 184deg 191deg, rgba(239,10,168,.2) 192deg 194deg, transparent 195deg 360deg); filter: blur(2px); transform: scaleX(1.45); }
+.hero { background-color: #08020f; background-image: linear-gradient(180deg, rgba(8,2,15,.05) 0%, rgba(8,2,15,.02) 58%, #08020f 100%), url("../../assets/images/brand/vumari-hero-light-rays.jpg"); background-position: center top; background-repeat: no-repeat; background-size: cover; isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
+.hero::before { background: radial-gradient(ellipse at 50% 34%, transparent 0 20%, rgba(8,2,15,.06) 44%, rgba(8,2,15,.38) 82%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 0; }
 .hero-grid { align-items: center; display: grid; gap: var(--space-5); justify-items: center; position: relative; text-align: center; z-index: 1; }
 .hero-brand { align-items: center; display: flex; justify-content: center; min-height: clamp(20rem, 48vw, 34rem); position: relative; width: 100%; }
 .hero-brand::before { background: radial-gradient(circle, rgba(239,10,168,.3), rgba(111,44,255,.16) 38%, transparent 70%); content: ""; filter: blur(1rem); inset: 10%; position: absolute; }
@@ -17,9 +12,3 @@
 .idea-list li { border-bottom: 1px solid var(--color-border); padding-block: .8rem; }
 .cta-panel { background: linear-gradient(130deg, rgba(111,44,255,.2), rgba(239,10,168,.12)); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 4rem); }
 @media (min-width: 56rem) { .idea-list { grid-template-columns: repeat(3, 1fr); } }
-@media (prefers-reduced-motion: no-preference) {
-  .hero-rays { animation: hero-rays 16s ease-in-out infinite alternate; }
-  .hero::after { animation: hero-sparks 10s ease-in-out infinite alternate; }
-}
-@keyframes hero-rays { from { opacity: .7; transform: scale(1.01); } to { opacity: 1; transform: scale(1.06); } }
-@keyframes hero-sparks { from { opacity: .36; transform: translate3d(-.2rem, .1rem, 0); } to { opacity: .62; transform: translate3d(.25rem, -.2rem, 0); } }
