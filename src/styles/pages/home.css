@@ -1,4 +1,4 @@
-.hero { background-color: #08020f; background-image: linear-gradient(180deg, rgba(8,2,15,.05) 0%, rgba(8,2,15,.02) 58%, #08020f 100%), url("../../assets/images/brand/vumari-hero-light-rays.jpg"); background-position: center top; background-repeat: no-repeat; background-size: cover; isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
+.hero { background-color: #08020f; background-image: linear-gradient(180deg, rgba(8,2,15,0) 0%, rgba(8,2,15,.04) 48%, #08020f 78%), url("../../assets/images/brand/vumari-hero-light-rays-v2.jpg"); background-position: center top; background-repeat: no-repeat; background-size: auto 38rem; isolation: isolate; min-height: calc(100svh - 4.6rem); overflow: hidden; padding-block: clamp(3rem, 7vw, 5.5rem); position: relative; }
 .hero::before { background: radial-gradient(ellipse at 50% 34%, transparent 0 20%, rgba(8,2,15,.06) 44%, rgba(8,2,15,.38) 82%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 0; }
 .hero-grid { align-items: center; display: grid; gap: var(--space-5); justify-items: center; position: relative; text-align: center; z-index: 1; }
 .hero-brand { align-items: center; display: flex; justify-content: center; min-height: clamp(20rem, 48vw, 34rem); position: relative; width: 100%; }
@@ -12,3 +12,4 @@
 .idea-list li { border-bottom: 1px solid var(--color-border); padding-block: .8rem; }
 .cta-panel { background: linear-gradient(130deg, rgba(111,44,255,.2), rgba(239,10,168,.12)); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: grid; gap: var(--space-4); padding: clamp(1.5rem, 5vw, 4rem); }
 @media (min-width: 56rem) { .idea-list { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 48rem) { .hero { background-size: 100% auto; } }
