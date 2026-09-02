@@ -1,0 +1,37 @@
+{
+  "families": [
+    {
+      "id": "media",
+      "name": "VUMARI Media Tools"
+    }
+  ],
+  "tools": [
+    {
+      "id": "media-srt-to-vtt",
+      "slug": "srt-a-vtt",
+      "name": "Convertir SRT a VTT",
+      "shortName": "SRT → VTT",
+      "family": "media",
+      "summary": "Conversión de subtítulos SRT al formato WebVTT, actualmente en desarrollo.",
+      "status": "experimental",
+      "processingMode": "browser",
+      "input": {
+        "formats": ["srt"]
+      },
+      "output": {
+        "formats": ["vtt"]
+      },
+      "privacy": {
+        "plannedLocalProcessing": true,
+        "message": "Esta herramienta experimental está diseñada para funcionar localmente en el navegador cuando su procesamiento esté disponible."
+      },
+      "seo": {
+        "title": "Convertir SRT a VTT | VUMARI Tools",
+        "description": "Herramienta experimental de VUMARI STUDIOS para convertir subtítulos SRT a WebVTT.",
+        "indexable": false
+      },
+      "featured": true,
+      "order": 1
+    }
+  ]
+}

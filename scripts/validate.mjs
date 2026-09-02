@@ -7,10 +7,10 @@ const readJson = async file => {
   try { return JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8')); }
   catch (error) { errors.push(`${file}: ${error.message}`); return null; }
 };
-const [company, author, legal, services, portfolio, site, socialLinks, contactChannels] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks, contactChannels, toolsData] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
   readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
-  readJson('social-links.json'), readJson('contact-channels.json')
+  readJson('social-links.json'), readJson('contact-channels.json'), readJson('tools.json')
 ]);
 
 for (const file of ['src/assets/images/brand/vumari-logo-primary.png', 'src/assets/icons/favicon.svg']) {
@@ -56,6 +56,26 @@ if (Array.isArray(portfolio)) for (const project of portfolio) {
   }
 }
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
+const allowedToolStatuses = new Set(['planned', 'experimental', 'beta', 'stable']);
+const allowedProcessingModes = new Set(['browser', 'desktop', 'hybrid']);
+if (!Array.isArray(toolsData?.families) || toolsData.families.length < 1) errors.push('tools.json requiere familias');
+if (!Array.isArray(toolsData?.tools) || toolsData.tools.length < 1) errors.push('tools.json requiere herramientas');
+if (Array.isArray(toolsData?.tools)) {
+  const familyIds = new Set((toolsData.families ?? []).map(family => family.id));
+  const ids = toolsData.tools.map(tool => tool.id);
+  const slugs = toolsData.tools.map(tool => tool.slug);
+  if (new Set(ids).size !== ids.length) errors.push('Los IDs de herramientas deben ser únicos');
+  if (new Set(slugs).size !== slugs.length) errors.push('Los slugs de herramientas deben ser únicos');
+  for (const tool of toolsData.tools) {
+    if (!familyIds.has(tool.family)) errors.push(`Familia inválida en herramienta: ${tool.id}`);
+    if (!allowedToolStatuses.has(tool.status)) errors.push(`Estado inválido en herramienta: ${tool.id}`);
+    if (!allowedProcessingModes.has(tool.processingMode)) errors.push(`Modo de procesamiento inválido en herramienta: ${tool.id}`);
+    if (!Array.isArray(tool.input?.formats) || tool.input.formats.length < 1) errors.push(`Formatos de entrada requeridos: ${tool.id}`);
+    if (!Array.isArray(tool.output?.formats) || tool.output.formats.length < 1) errors.push(`Formatos de salida requeridos: ${tool.id}`);
+    if (typeof tool.seo?.indexable !== 'boolean') errors.push(`indexable debe ser booleano: ${tool.id}`);
+    if ('order' in tool && typeof tool.order !== 'number') errors.push(`order debe ser numérico: ${tool.id}`);
+  }
+}
 if (!Array.isArray(socialLinks) || socialLinks.length < 1) errors.push('social-links.json debe incluir canales');
 if (Array.isArray(socialLinks)) for (const item of socialLinks) {
   if (!item.id || !item.label || !item.icon) errors.push('Cada red requiere id, label e icon');
@@ -80,7 +100,8 @@ if (!licenseText.includes(`Copyright (c) 2026 ${author?.name}`)) errors.push('LI
 const publicSources = [
   'README.md', 'scripts/build.mjs', 'src/data/company.json', 'src/data/author.json',
   'src/data/legal.json', 'src/data/services.json', 'src/data/portfolio.json',
-  'src/data/site.json', 'src/data/social-links.json', 'src/data/contact-channels.json'
+  'src/data/site.json', 'src/data/social-links.json', 'src/data/contact-channels.json',
+  'src/data/tools.json'
 ];
 const forbiddenAuthors = /(?:author|autor|desarrollo|developed|created|creado)[^\n]{0,50}(ChatGPT|OpenAI|Claude|Gemini|Copilot|Artificial Intelligence|\bAI\b)/i;
 for (const file of publicSources) {

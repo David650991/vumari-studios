@@ -3,10 +3,10 @@ import path from 'node:path';
 
 const root = process.cwd();
 const readJson = async file => JSON.parse(await readFile(path.join(root, 'src/data', file), 'utf8'));
-const [company, author, legal, services, portfolio, site, socialLinks, contactChannels] = await Promise.all([
+const [company, author, legal, services, portfolio, site, socialLinks, contactChannels, toolsData] = await Promise.all([
   readJson('company.json'), readJson('author.json'), readJson('legal.json'),
   readJson('services.json'), readJson('portfolio.json'), readJson('site.json'),
-  readJson('social-links.json'), readJson('contact-channels.json')
+  readJson('social-links.json'), readJson('contact-channels.json'), readJson('tools.json')
 ]);
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
@@ -14,15 +14,16 @@ await mkdir(dist, { recursive: true });
 
 const escape = value => String(value).replace(/[&<>"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
 const absolute = file => new URL(file, company.siteUrl).href;
-const nav = current => site.navigation.map(item => `<li><a href="${item.href}"${item.href === current ? ' aria-current="page"' : ''}>${item.label}</a></li>`).join('');
+const withPrefix = (prefix, target) => `${prefix}${target}`;
+const nav = (current, prefix = '') => site.navigation.map(item => `<li><a href="${withPrefix(prefix, item.href)}"${item.href === current ? ' aria-current="page"' : ''}>${item.label}</a></li>`).join('');
 const activeSocialLinks = socialLinks.filter(item => Boolean(item.url));
-const socialItem = item => {
-  const content = `<img src="${item.icon}" alt="" width="32" height="32" loading="lazy"><span><strong>${item.label}</strong><small>${item.url ? 'Visitar perfil' : 'Próximamente'}</small></span>`;
+const socialItem = (item, prefix = '') => {
+  const content = `<img src="${withPrefix(prefix, item.icon)}" alt="" width="32" height="32" loading="lazy"><span><strong>${item.label}</strong><small>${item.url ? 'Visitar perfil' : 'Próximamente'}</small></span>`;
   return item.url
     ? `<li><a class="social-item" href="${item.url}" rel="me noopener">${content}</a></li>`
     : `<li class="social-item social-item--pending" aria-label="${item.label}: próximamente">${content}</li>`;
 };
-const socialList = className => `<ul class="${className}" aria-label="Redes sociales de VUMARI STUDIOS">${socialLinks.map(socialItem).join('')}</ul>`;
+const socialList = (className, prefix = '') => `<ul class="${className}" aria-label="Redes sociales de VUMARI STUDIOS">${socialLinks.map(item => socialItem(item, prefix)).join('')}</ul>`;
 const contactItem = item => {
   const detail = item.value ?? 'Pendiente de configuración';
   const content = `<img src="${item.icon}" alt="" width="32" height="32"><span><strong>${item.label}</strong><small>${detail}</small></span>`;
@@ -32,20 +33,20 @@ const contactItem = item => {
 };
 const contactList = `<ul class="social-list social-list--contact" aria-label="Canales de contacto de VUMARI STUDIOS">${contactChannels.map(contactItem).join('')}</ul>`;
 
-function header(current) {
+function header(current, prefix = '') {
   return `<a class="skip-link" href="#contenido">Saltar al contenido</a>
   <header class="site-header"><div class="container nav-wrap">
-    <a class="brand" href="index.html" aria-label="VUMARI STUDIOS, inicio"><img src="assets/images/brand/vumari-logo-primary.png" alt="" width="48" height="60">VUMARI</a>
+    <a class="brand" href="${withPrefix(prefix, 'index.html')}" aria-label="VUMARI STUDIOS, inicio"><img src="${withPrefix(prefix, 'assets/images/brand/vumari-logo-primary.png')}" alt="" width="48" height="60">VUMARI</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menú</button>
-    <nav class="site-nav" id="site-navigation" aria-label="Navegación principal" data-navigation data-open="false"><ul>${nav(current)}</ul></nav>
+    <nav class="site-nav" id="site-navigation" aria-label="Navegación principal" data-navigation data-open="false"><ul>${nav(current, prefix)}</ul></nav>
   </div></header>`;
 }
 
-function footer() {
+function footer(prefix = '') {
   return `<footer class="site-footer"><div class="container"><div class="footer-grid">
     <div class="footer-brand"><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
-    <nav class="footer-navigation" aria-label="Navegación secundaria"><p class="footer-title">Explorar</p><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
-    <div class="footer-social"><p class="footer-title">Conecta con VUMARI</p>${socialList('social-list social-list--footer')}<p class="footer-pending">Perfiles oficiales en preparación.</p></div>
+    <nav class="footer-navigation" aria-label="Navegación secundaria"><p class="footer-title">Explorar</p><ul class="footer-links">${nav('', prefix)}<li><a href="${withPrefix(prefix, 'privacidad.html')}">Privacidad</a></li></ul></nav>
+    <div class="footer-social"><p class="footer-title">Conecta con VUMARI</p>${socialList('social-list social-list--footer', prefix)}<p class="footer-pending">Perfiles oficiales en preparación.</p></div>
   </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${company.brand}. Todos los derechos reservados.</p></div></div></footer>`;
 }
 
@@ -60,17 +61,17 @@ function schema() {
   });
 }
 
-function layout({title, description, file, content}) {
-  const canonical = absolute(file === 'index.html' ? '' : file);
+function layout({title, description, file, content, canonicalPath, noindex = false, assetPrefix = ''}) {
+  const canonical = absolute(canonicalPath ?? (file === 'index.html' ? '' : file));
   return `<!doctype html><html lang="es-MX"><head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${company.brand}">
+  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${company.brand}">${noindex ? '<meta name="robots" content="noindex, follow">' : ''}
   <link rel="canonical" href="${canonical}"><meta name="theme-color" content="#06050a">
   <meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="${company.brand}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
-  <link rel="icon" href="assets/icons/favicon.ico" sizes="any"><link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="styles/main.css"><script type="application/ld+json">${schema()}</script><script type="module" src="scripts/core/app.js"></script>
-  </head><body>${header(file)}<main id="contenido">${content}</main>${footer()}</body></html>`;
+  <link rel="icon" href="${withPrefix(assetPrefix, 'assets/icons/favicon.ico')}" sizes="any"><link rel="icon" href="${withPrefix(assetPrefix, 'assets/icons/favicon.svg')}" type="image/svg+xml"><link rel="apple-touch-icon" href="${withPrefix(assetPrefix, 'assets/icons/apple-touch-icon.png')}">
+  <link rel="stylesheet" href="${withPrefix(assetPrefix, 'styles/main.css')}"><script type="application/ld+json">${schema()}</script><script type="module" src="${withPrefix(assetPrefix, 'scripts/core/app.js')}"></script>
+  </head><body>${header(file, assetPrefix)}<main id="contenido">${content}</main>${footer(assetPrefix)}</body></html>`;
 }
 
 const featuredServiceSlugs = new Set(['marketing-digital', 'contenido-digital', 'produccion-audiovisual']);
@@ -150,14 +151,24 @@ const pages = [
   {
     file:'privacidad.html', title:`Aviso de privacidad | ${company.brand}`, description:'Información sobre el tratamiento de datos compartidos con VUMARI STUDIOS mediante sus formularios de contacto.',
     content:`<section class="page-hero"><div class="container"><p class="eyebrow">Privacidad</p><h1>Aviso de privacidad.</h1><p class="lead">Versión inicial para el formulario del sitio. Debe revisarse cuando se configure el responsable y el canal definitivo de recepción.</p></div></section><section class="section section--soft"><div class="container legal"><p><strong>Responsable:</strong> VUMARI STUDIOS. Domicilio y correo para derechos ARCO: PENDIENTE DE DEFINIR antes de habilitar el envío público.</p><h2>Datos solicitados</h2><p>Nombre, empresa o proyecto, teléfono, correo, ciudad e información que la persona decida compartir sobre su solicitud.</p><h2>Finalidad</h2><p>Entender la solicitud, contactar a la persona interesada y preparar una propuesta de servicios. No se usarán estos datos para finalidades distintas sin informar y obtener el consentimiento correspondiente.</p><h2>Conservación y transferencias</h2><p>Los plazos de conservación y proveedores involucrados se documentarán cuando se seleccione el mecanismo de formularios. El formulario no debe habilitarse públicamente antes de completar esa configuración.</p><h2>Derechos</h2><p>El canal para ejercer acceso, rectificación, cancelación u oposición se publicará junto con el correo oficial.</p></div></section>`
+  },
+  {
+    file:'herramientas/index.html', canonicalPath:'herramientas/', assetPrefix:'../', noindex:true,
+    title:`VUMARI Tools | ${company.brand}`,
+    description:'Herramientas digitales desarrolladas progresivamente por VUMARI STUDIOS.',
+    content:`<section class="page-hero"><div class="container tools-intro"><p class="eyebrow">Tecnología VUMARI</p><h1>VUMARI Tools</h1><p class="lead">Herramientas digitales desarrolladas progresivamente por VUMARI STUDIOS.</p></div></section><section class="section section--soft"><div class="container tools-family"><div class="tools-family__heading"><p class="eyebrow">Primera familia</p><h2>${escape(toolsData.families[0].name)}</h2><p>Utilidades para formatos multimedia, comenzando por transformaciones ligeras y verificables.</p></div><div class="tools-grid">${toolsData.tools.map(tool => `<article class="tool-card"><p class="tool-card__status">${tool.status === 'experimental' ? 'Experimental' : escape(tool.status)}</p><h3>${escape(tool.shortName)}</h3><p>${escape(tool.summary)}</p><p class="tool-card__format">${escape(tool.input.formats.join(', ').toUpperCase())} <span aria-hidden="true">→</span> ${escape(tool.output.formats.join(', ').toUpperCase())}</p><p class="tool-card__notice"><strong>En desarrollo.</strong> La interfaz de conversión todavía no está disponible.</p></article>`).join('')}</div><p class="tools-family__cta">¿Necesitas una solución digital para tu proyecto? <a href="../cotizacion.html">Solicita una cotización</a>.</p></div></section>`
   }
 ];
 
-for (const page of pages) await writeFile(path.join(dist, page.file), layout(page), 'utf8');
+for (const page of pages) {
+  const output = path.join(dist, page.file);
+  await mkdir(path.dirname(output), {recursive:true});
+  await writeFile(output, layout(page), 'utf8');
+}
 await cp(path.join(root, 'src/styles'), path.join(dist, 'styles'), {recursive:true});
 await cp(path.join(root, 'src/scripts'), path.join(dist, 'scripts'), {recursive:true});
 await cp(path.join(root, 'src/assets'), path.join(dist, 'assets'), {recursive:true});
 await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${absolute('sitemap.xml')}\n`);
-await writeFile(path.join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map(p=>`<url><loc>${absolute(p.file)}</loc></url>`).join('')}</urlset>`);
+await writeFile(path.join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.filter(page => !page.noindex).map(page=>`<url><loc>${absolute(page.canonicalPath ?? page.file)}</loc></url>`).join('')}</urlset>`);
 await writeFile(path.join(dist, '.nojekyll'), '');
 console.log(`Sitio generado: ${pages.length} páginas en dist/`);
