@@ -113,7 +113,7 @@ const projectGallery = [
   {name:'Identidad para emprendimiento', category:'Diseño', type:'Branding', description:'Ejemplo de sistema visual preparado para piezas digitales y comunicación cotidiana.', status:'Proyecto demostrativo'}
 ].map(projectCard).join('');
 const projectMedia = project => project.media?.length
-  ? `<div class="project-media" aria-label="Selección audiovisual de ${escape(project.name)}">${project.media.map(item => `<figure class="video-card"><video controls preload="none" poster="${item.poster}" playsinline aria-label="${escape(item.title)}"><source src="${item.src}" type="video/mp4">Tu navegador no puede reproducir este video.</video><figcaption>${escape(item.title)}</figcaption></figure>`).join('')}</div>`
+  ? `<div class="project-media" aria-label="Selección audiovisual de ${escape(project.name)}">${project.media.map(item => `<figure class="video-card"><video controls preload="none" poster="${item.poster}" playsinline data-video aria-label="${escape(item.title)}"><source src="${item.src}" type="video/mp4">Tu navegador no puede reproducir este video.</video><figcaption>${escape(item.title)}</figcaption></figure>`).join('')}</div>`
   : `<img class="project-cover" src="${project.image}" alt="${escape(project.imageAlt ?? project.name)}" loading="lazy" width="1122" height="1402">`;
 
 const pages = [
