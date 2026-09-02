@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { readdir, readFile } from 'node:fs/promises';
+import { access, readdir, readFile } from 'node:fs/promises';
 import { test, before } from 'node:test';
 import path from 'node:path';
 
@@ -21,20 +21,30 @@ test('cada página tiene estructura, metadata y navegación accesible', async ()
     const html = await readFile(path.join(dist, file), 'utf8');
     assert.match(html, /<html lang="es-MX">/);
     assert.match(html, /<meta name="description"/);
-    assert.match(html, /<meta name="author" content="David Vidal Ramírez">/);
+    assert.match(html, /<meta name="author" content="David Vidal">/);
     assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
     assert.match(html, /<link rel="canonical"/);
     assert.match(html, /<main id="contenido">/);
     assert.match(html, /aria-label="Navegación principal"/);
     assert.doesNotMatch(html, /Lorem ipsum/i);
+    const privateName = ['David Vidal', 'Ramírez'].join(' ');
+    const removedOwnerName = ['Ulises', 'Márquez González'].join(' ');
+    assert.ok(!html.includes(privateName) && !html.includes(removedOwnerName));
   }
 });
 
 test('separa la marca pública de la autoría técnica', async () => {
   const html = await readFile(path.join(dist, 'index.html'), 'utf8');
   assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
-  assert.match(html, /Desarrollo técnico: David Vidal Ramírez/);
+  assert.match(html, /Desarrollo técnico: David Vidal/);
   assert.doesNotMatch(html, /Desarrollo técnico: VUMARI STUDIOS/);
+});
+
+test('conserva la identidad técnica completa sólo en la configuración del repositorio', async () => {
+  const author = JSON.parse(await readFile(path.join(root, 'src/data/author.json'), 'utf8'));
+  assert.equal(author.name, 'David Vidal Ramírez');
+  assert.equal(author.publicName, 'David Vidal');
+  assert.equal(author.signature, 'David650991');
 });
 
 test('los enlaces internos HTML tienen destino generado', async () => {
@@ -45,6 +55,44 @@ test('los enlaces internos HTML tienen destino generado', async () => {
     for (const match of html.matchAll(/href="([^":#]+\.html)"/g)) {
       assert.ok(available.has(match[1]), `${file} enlaza a ${match[1]}, que no existe`);
     }
+  }
+});
+
+test('los recursos locales referenciados existen en la salida', async () => {
+  const files = (await readdir(dist)).filter(file => file.endsWith('.html'));
+  for (const file of files) {
+    const html = await readFile(path.join(dist, file), 'utf8');
+    for (const match of html.matchAll(/(?:src|poster|href)="([^"#?]+)"/g)) {
+      const reference = match[1];
+      if (/^(?:https?:|mailto:|tel:)/.test(reference) || reference.endsWith('.html')) continue;
+      await assert.doesNotReject(
+        access(path.join(dist, reference.replace(/^\/+/, ''))),
+        `${file} referencia un recurso inexistente: ${reference}`
+      );
+    }
+  }
+});
+
+test('los enlaces internos con fragmento apuntan a un id existente', async () => {
+  const files = (await readdir(dist)).filter(file => file.endsWith('.html'));
+  for (const file of files) {
+    const html = await readFile(path.join(dist, file), 'utf8');
+    for (const match of html.matchAll(/href="([^"#]*\.html)?#([^"?]+)"/g)) {
+      const targetFile = match[1] || file;
+      const targetHtml = await readFile(path.join(dist, targetFile), 'utf8');
+      assert.ok(targetHtml.includes(`id="${match[2]}"`), `${file} apunta a ${targetFile}#${match[2]}, que no existe`);
+    }
+  }
+});
+
+test('cada canonical coincide con la URL pÃºblica configurada', async () => {
+  const company = JSON.parse(await readFile(path.join(root, 'src/data/company.json'), 'utf8'));
+  const files = (await readdir(dist)).filter(file => file.endsWith('.html'));
+  for (const file of files) {
+    const html = await readFile(path.join(dist, file), 'utf8');
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/u)?.[1];
+    const expected = new URL(file === 'index.html' ? '' : file, company.siteUrl).href;
+    assert.equal(canonical, expected, `Canonical incorrecto en ${file}`);
   }
 });
 
@@ -64,6 +112,7 @@ test('incluye todos los canales sociales desde una fuente modular', async () => 
   const socialLinks = JSON.parse(await readFile(path.join(root, 'src/data/social-links.json'), 'utf8'));
   const html = await readFile(path.join(dist, 'contacto.html'), 'utf8');
   for (const item of socialLinks) {
+    if (item.url !== null) assert.doesNotThrow(() => new URL(item.url), `URL social invÃ¡lida: ${item.id}`);
     assert.match(html, new RegExp(`>${item.label}<`));
     assert.match(html, new RegExp(item.icon.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
@@ -84,8 +133,14 @@ test('publica el trabajo audiovisual con carga de video bajo demanda', async () 
   const project = portfolio.find(item => item.slug === 'contenido-centro-rehabilitacion-la-luz-y-la-esperanza');
   const html = await readFile(path.join(dist, 'portafolio.html'), 'utf8');
   assert.equal(project.status, 'client');
+  assert.equal(project.client, 'La Luz Y La Esperanza Que Necesito — Centro de Rehabilitación');
+  assert.doesNotMatch(html, /La Luz y la Esperanza que Anhelo/i);
   assert.equal(project.media.length, 6);
   assert.equal((html.match(/<video controls preload="none"/g) ?? []).length, project.media.length);
+  assert.equal((html.match(/data-video/g) ?? []).length, project.media.length);
+  const videoScript = await readFile(path.join(dist, 'scripts/components/videos.js'), 'utf8');
+  assert.match(videoScript, /IntersectionObserver/);
+  assert.match(videoScript, /preload = 'metadata'/);
   for (const item of project.media) {
     assert.ok(html.includes(item.src));
     assert.ok(html.includes(item.poster));
