@@ -46,7 +46,7 @@ function footer() {
     <div class="footer-brand"><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
     <nav class="footer-navigation" aria-label="Navegación secundaria"><p class="footer-title">Explorar</p><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
     <div class="footer-social"><p class="footer-title">Conecta con VUMARI</p>${socialList('social-list social-list--footer')}<p class="footer-pending">Perfiles oficiales en preparación.</p></div>
-  </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${escape(legal.copyrightHolder)}. Todos los derechos reservados.</p><p class="copyright">${company.brand} · Desarrollo técnico: ${escape(author.name)}.</p></div></div></footer>`;
+  </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${escape(author.publicName)}. Todos los derechos reservados.</p><p class="copyright">${company.brand} · Desarrollo técnico: ${escape(author.publicName)}.</p></div></div></footer>`;
 }
 
 function schema() {
@@ -56,7 +56,6 @@ function schema() {
     logo: absolute('assets/images/brand/vumari-logo-primary.png'),
     areaServed: ['Tres Valles', 'Veracruz', 'México'],
     address: {'@type':'PostalAddress', addressLocality: company.location.city, addressRegion: company.location.state, addressCountry: 'MX'},
-    founder: company.founders.map(name => ({'@type':'Person', name})),
     ...(activeSocialLinks.length ? {sameAs: activeSocialLinks.map(item => item.url)} : {})
   });
 }
@@ -65,7 +64,7 @@ function layout({title, description, file, content}) {
   const canonical = absolute(file);
   return `<!doctype html><html lang="es-MX"><head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${escape(author.name)}">
+  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${escape(author.publicName)}">
   <link rel="canonical" href="${canonical}"><meta name="theme-color" content="#06050a">
   <meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="${company.brand}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
@@ -138,7 +137,7 @@ const pages = [
   },
   {
     file:'nosotros.html', title:`Nosotros | ${company.brand}`, description:'Conoce el origen, la misión y la forma de trabajo de VUMARI STUDIOS en Tres Valles, Veracruz.',
-    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Quiénes somos</p><h1>Un estudio creativo construido desde Tres Valles.</h1><p class="lead">VUMARI STUDIOS nace como un proyecto de David Vidal Ramírez y Ulises Márquez González, con una forma de trabajo principalmente digital y capacidad de producción presencial cuando el proyecto lo requiere.</p></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><p class="eyebrow">Misión</p><h2>Comunicar mejor lo que cada negocio hace.</h2><p>Ayudar a negocios, empresas y emprendedores mediante publicidad, contenido audiovisual, diseño y herramientas digitales. Trabajamos con claridad, creatividad y responsabilidad para que cada solución responda a una necesidad real.</p></article><article class="card"><p class="eyebrow">Visión</p><h2>Crecer con procesos serios y trabajo de calidad.</h2><p>Construir gradualmente un estudio capaz de integrar publicidad, producción audiovisual, marketing y tecnología; comenzar en Tres Valles y la región, crecer en Veracruz y trabajar con clientes de distintas partes de México.</p></article></div></section><section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Cómo trabajamos</p><h2>Un proceso entendible de principio a fin.</h2></div><ol class="grid grid--3 process-grid">${processCards}</ol></div></section>`
+    content:`<section class="page-hero"><div class="container"><p class="eyebrow">Quiénes somos</p><h1>Un estudio creativo construido desde Tres Valles.</h1><p class="lead">VUMARI STUDIOS nace en Tres Valles, Veracruz, con una forma de trabajo principalmente digital y capacidad de producción presencial cuando el proyecto lo requiere.</p></div></section><section class="section section--soft"><div class="container grid grid--2"><article class="card"><p class="eyebrow">Misión</p><h2>Comunicar mejor lo que cada negocio hace.</h2><p>Ayudar a negocios, empresas y emprendedores mediante publicidad, contenido audiovisual, diseño y herramientas digitales. Trabajamos con claridad, creatividad y responsabilidad para que cada solución responda a una necesidad real.</p></article><article class="card"><p class="eyebrow">Visión</p><h2>Crecer con procesos serios y trabajo de calidad.</h2><p>Construir gradualmente un estudio capaz de integrar publicidad, producción audiovisual, marketing y tecnología; comenzar en Tres Valles y la región, crecer en Veracruz y trabajar con clientes de distintas partes de México.</p></article></div></section><section class="section"><div class="container"><div class="section-heading"><p class="eyebrow">Cómo trabajamos</p><h2>Un proceso entendible de principio a fin.</h2></div><ol class="grid grid--3 process-grid">${processCards}</ol></div></section>`
   },
   {
     file:'cotizacion.html', title:`Solicitar cotización | ${company.brand}`, description:'Comparte la información básica de tu proyecto para definir alcance y preparar una cotización con VUMARI STUDIOS.',

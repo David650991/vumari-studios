@@ -34,6 +34,8 @@ if (company) {
 }
 if (author) {
   if (author.name !== 'David Vidal Ramírez') errors.push('El autor técnico debe ser David Vidal Ramírez');
+  if (author.publicName !== 'David Vidal') errors.push('El nombre público del autor debe ser David Vidal');
+  if (author.signature !== 'David650991') errors.push('La firma técnica debe ser David650991');
   if (author.github !== 'David650991') errors.push('El usuario público del autor debe ser David650991');
 }
 if (legal) {
