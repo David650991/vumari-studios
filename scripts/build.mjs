@@ -46,7 +46,7 @@ function footer() {
     <div class="footer-brand"><p class="eyebrow">${company.brand}</p><p>${company.description}</p></div>
     <nav class="footer-navigation" aria-label="Navegación secundaria"><p class="footer-title">Explorar</p><ul class="footer-links">${nav('')}<li><a href="privacidad.html">Privacidad</a></li></ul></nav>
     <div class="footer-social"><p class="footer-title">Conecta con VUMARI</p>${socialList('social-list social-list--footer')}<p class="footer-pending">Perfiles oficiales en preparación.</p></div>
-  </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${escape(author.publicName)}. Todos los derechos reservados.</p><p class="copyright">${company.brand} · Desarrollo técnico: ${escape(author.publicName)}.</p></div></div></footer>`;
+  </div><div class="footer-bottom"><p class="copyright">© ${legal.copyrightYear} ${company.brand}. Todos los derechos reservados.</p></div></div></footer>`;
 }
 
 function schema() {
@@ -64,7 +64,7 @@ function layout({title, description, file, content}) {
   const canonical = absolute(file === 'index.html' ? '' : file);
   return `<!doctype html><html lang="es-MX"><head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${escape(author.publicName)}">
+  <title>${escape(title)}</title><meta name="description" content="${escape(description)}"><meta name="author" content="${company.brand}">
   <link rel="canonical" href="${canonical}"><meta name="theme-color" content="#06050a">
   <meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="${company.brand}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escape(title)}"><meta name="twitter:description" content="${escape(description)}"><meta name="twitter:image" content="${absolute('assets/images/brand/vumari-logo-primary.png')}">

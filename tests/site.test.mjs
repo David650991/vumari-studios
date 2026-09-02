@@ -21,23 +21,33 @@ test('cada página tiene estructura, metadata y navegación accesible', async ()
     const html = await readFile(path.join(dist, file), 'utf8');
     assert.match(html, /<html lang="es-MX">/);
     assert.match(html, /<meta name="description"/);
-    assert.match(html, /<meta name="author" content="David Vidal">/);
+    assert.match(html, /<meta name="author" content="VUMARI STUDIOS">/);
     assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
     assert.match(html, /<link rel="canonical"/);
     assert.match(html, /<main id="contenido">/);
     assert.match(html, /aria-label="Navegación principal"/);
     assert.doesNotMatch(html, /Lorem ipsum/i);
-    const privateName = ['David Vidal', 'Ramírez'].join(' ');
+    const publicPersonalName = ['David', 'Vidal'].join(' ');
+    const privateName = [publicPersonalName, 'Ramírez'].join(' ');
     const removedOwnerName = ['Ulises', 'Márquez González'].join(' ');
-    assert.ok(!html.includes(privateName) && !html.includes(removedOwnerName));
+    const withoutTechnicalUrls = html.replaceAll('david650991.github.io', '').replaceAll('github.com/David650991', '');
+    assert.ok(!withoutTechnicalUrls.includes(publicPersonalName));
+    assert.ok(!withoutTechnicalUrls.includes(privateName));
+    assert.ok(!withoutTechnicalUrls.includes(removedOwnerName));
+    assert.ok(!withoutTechnicalUrls.includes('David650991'));
+    const schemaText = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/u)?.[1] ?? '';
+    const schema = JSON.parse(schemaText);
+    assert.equal(schema.name, 'VUMARI STUDIOS');
+    assert.ok(!('founder' in schema));
+    assert.doesNotMatch(schemaText, /"@type":"Person"/);
   }
 });
 
-test('separa la marca pública de la autoría técnica', async () => {
+test('utiliza únicamente la marca como identidad pública', async () => {
   const html = await readFile(path.join(dist, 'index.html'), 'utf8');
   assert.match(html, /<meta property="og:site_name" content="VUMARI STUDIOS">/);
-  assert.match(html, /Desarrollo técnico: David Vidal/);
-  assert.doesNotMatch(html, /Desarrollo técnico: VUMARI STUDIOS/);
+  assert.match(html, /© 2026 VUMARI STUDIOS\. Todos los derechos reservados\./);
+  assert.doesNotMatch(html, /Desarrollo técnico:/);
 });
 
 test('conserva la identidad técnica completa sólo en la configuración del repositorio', async () => {
