@@ -293,7 +293,6 @@
 .project-card__body>p:not(.project-card__meta) { color: var(--color-muted); font-size: .95rem; }
 .project-card__body a { color: var(--color-text); font-size: .9rem; font-weight: 720; margin-top: .25rem; text-decoration: none; }
 .project-card__body a span { color: var(--color-cyan); }
-}
 
 .cta-panel {
   background: linear-gradient(135deg, rgba(111, 44, 255, .14), rgba(239, 10, 168, .07) 55%, rgba(18, 205, 236, .04));
