@@ -58,6 +58,7 @@ if (Array.isArray(portfolio)) for (const project of portfolio) {
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
 const allowedToolStatuses = new Set(['planned', 'experimental', 'beta', 'stable']);
 const allowedProcessingModes = new Set(['browser', 'desktop', 'hybrid']);
+const allowedProcessors = new Set(['subtitle-srt-to-vtt']);
 if (!Array.isArray(toolsData?.families) || toolsData.families.length < 1) errors.push('tools.json requiere familias');
 if (!Array.isArray(toolsData?.tools) || toolsData.tools.length < 1) errors.push('tools.json requiere herramientas');
 if (Array.isArray(toolsData?.tools)) {
@@ -70,6 +71,7 @@ if (Array.isArray(toolsData?.tools)) {
     if (!familyIds.has(tool.family)) errors.push(`Familia inválida en herramienta: ${tool.id}`);
     if (!allowedToolStatuses.has(tool.status)) errors.push(`Estado inválido en herramienta: ${tool.id}`);
     if (!allowedProcessingModes.has(tool.processingMode)) errors.push(`Modo de procesamiento inválido en herramienta: ${tool.id}`);
+    if (!allowedProcessors.has(tool.processor)) errors.push(`Procesador inválido en herramienta: ${tool.id}`);
     if (!Array.isArray(tool.input?.formats) || tool.input.formats.length < 1) errors.push(`Formatos de entrada requeridos: ${tool.id}`);
     if (!Array.isArray(tool.output?.formats) || tool.output.formats.length < 1) errors.push(`Formatos de salida requeridos: ${tool.id}`);
     if (typeof tool.seo?.indexable !== 'boolean') errors.push(`indexable debe ser booleano: ${tool.id}`);
