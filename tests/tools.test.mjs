@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
 import { access, readFile } from 'node:fs/promises';
 import { test, before } from 'node:test';
 import path from 'node:path';
@@ -9,7 +8,6 @@ const dist = path.join(root, 'dist');
 let toolsData;
 
 before(async () => {
-  execFileSync(process.execPath, ['scripts/build.mjs'], {cwd: root});
   toolsData = JSON.parse(await readFile(path.join(root, 'src/data/tools.json'), 'utf8'));
 });
 
