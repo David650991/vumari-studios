@@ -1,8 +1,9 @@
-export class SubtitleConversionError extends Error {
+import {ToolProcessingError} from '../tool-error.js';
+
+export class SubtitleConversionError extends ToolProcessingError {
   constructor(code, message) {
-    super(message);
+    super(code, message);
     this.name = 'SubtitleConversionError';
-    this.code = code;
   }
 }
 

@@ -33,6 +33,34 @@
       },
       "featured": true,
       "order": 1
+    },
+    {
+      "id": "media-vtt-to-srt",
+      "slug": "vtt-a-srt",
+      "name": "Convertir VTT a SRT",
+      "shortName": "VTT → SRT",
+      "family": "media",
+      "summary": "Conversión local de subtítulos WebVTT simples al formato SubRip SRT.",
+      "status": "experimental",
+      "processingMode": "browser",
+      "processor": "subtitle-vtt-to-srt",
+      "input": {
+        "formats": ["vtt"]
+      },
+      "output": {
+        "formats": ["srt"]
+      },
+      "privacy": {
+        "localProcessing": true,
+        "message": "El archivo se procesa localmente en este navegador y no se envía a VUMARI STUDIOS."
+      },
+      "seo": {
+        "title": "Convertir VTT a SRT | VUMARI Tools",
+        "description": "Herramienta experimental de VUMARI STUDIOS para convertir subtítulos WebVTT simples a SRT.",
+        "indexable": false
+      },
+      "featured": true,
+      "order": 2
     }
   ]
 }

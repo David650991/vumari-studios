@@ -58,7 +58,7 @@ if (Array.isArray(portfolio)) for (const project of portfolio) {
 if (!site?.navigation?.length) errors.push('site.json requiere navegación');
 const allowedToolStatuses = new Set(['planned', 'experimental', 'beta', 'stable']);
 const allowedProcessingModes = new Set(['browser', 'desktop', 'hybrid']);
-const allowedProcessors = new Set(['subtitle-srt-to-vtt']);
+const allowedProcessors = new Set(['subtitle-srt-to-vtt', 'subtitle-vtt-to-srt']);
 if (!Array.isArray(toolsData?.families) || toolsData.families.length < 1) errors.push('tools.json requiere familias');
 if (!Array.isArray(toolsData?.tools) || toolsData.tools.length < 1) errors.push('tools.json requiere herramientas');
 if (Array.isArray(toolsData?.tools)) {

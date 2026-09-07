@@ -14,11 +14,12 @@ before(async () => {
 test('mantiene un catálogo mínimo y válido de VUMARI Tools', () => {
   assert.equal(toolsData.families.length, 1);
   assert.equal(toolsData.families[0].name, 'VUMARI Media Tools');
-  assert.equal(toolsData.tools.length, 1);
+  assert.equal(toolsData.tools.length, 2);
   const ids = toolsData.tools.map(tool => tool.id);
   const slugs = toolsData.tools.map(tool => tool.slug);
   assert.equal(new Set(ids).size, ids.length);
   assert.equal(new Set(slugs).size, slugs.length);
+  assert.deepEqual(toolsData.tools.map(tool => tool.order), [1, 2]);
   assert.ok(toolsData.tools.every(tool => ['planned', 'experimental', 'beta', 'stable'].includes(tool.status)));
 });
 
@@ -30,6 +31,16 @@ test('registra SRT a VTT como experimental, local previsto y no indexable', () =
   assert.equal(tool.seo.indexable, false);
 });
 
+test('registra VTT a SRT como experimental, local y no indexable', () => {
+  const tool = toolsData.tools.find(item => item.id === 'media-vtt-to-srt');
+  assert.equal(tool.shortName, 'VTT → SRT');
+  assert.equal(tool.processor, 'subtitle-vtt-to-srt');
+  assert.equal(tool.status, 'experimental');
+  assert.equal(tool.processingMode, 'browser');
+  assert.equal(tool.privacy.localProcessing, true);
+  assert.equal(tool.seo.indexable, false);
+});
+
 test('genera el índice experimental con rutas y metadata correctas', async () => {
   const file = path.join(dist, 'herramientas/index.html');
   await assert.doesNotReject(access(file));
@@ -38,6 +49,7 @@ test('genera el índice experimental con rutas y metadata correctas', async () =
   assert.match(html, /<link rel="canonical" href="https:\/\/david650991\.github\.io\/vumari-studios\/herramientas\/">/);
   assert.match(html, /<h1>VUMARI Tools<\/h1>/);
   assert.match(html, /SRT → VTT/);
+  assert.match(html, /VTT → SRT/);
   assert.match(html, /Experimental/);
   assert.match(html, /Abrir herramienta experimental/);
   assert.match(html, /href="\.\.\/styles\/main\.css"/);
@@ -56,6 +68,7 @@ test('no publica Tools en navegación ni sitemap', async () => {
   assert.doesNotMatch(mainNavigation, />Herramientas</);
   assert.doesNotMatch(sitemap, /\/herramientas\//);
   assert.match(toolsPage, /href="srt-a-vtt\/">Abrir herramienta experimental/);
+  assert.match(toolsPage, /href="vtt-a-srt\/">Abrir herramienta experimental/);
 });
 
 test('mantiene la privacidad pública en la página experimental', async () => {
@@ -103,4 +116,20 @@ test('resuelve assets y navegación desde el segundo nivel', async () => {
     '../../privacidad.html',
     '../../cotizacion.html'
   ]) assert.ok(html.includes(reference), `Falta la referencia profunda: ${reference}`);
+});
+
+test('genera la página funcional VTT a SRT con configuración, canonical y noindex', async () => {
+  const file = path.join(dist, 'herramientas/vtt-a-srt/index.html');
+  await assert.doesNotReject(access(file));
+  const html = await readFile(file, 'utf8');
+  assert.match(html, /<meta name="robots" content="noindex, follow">/);
+  assert.match(html, /https:\/\/david650991\.github\.io\/vumari-studios\/herramientas\/vtt-a-srt\//);
+  assert.match(html, /<h1>Convertir VTT a SRT<\/h1>/);
+  assert.match(html, /data-processor="subtitle-vtt-to-srt"/);
+  assert.match(html, /data-input-extension="\.vtt"/);
+  assert.match(html, /type="file"[^>]+accept="\.vtt/);
+  assert.match(html, />Convertir a SRT<\/button>/);
+  assert.match(html, />Descargar SRT<\/a>/);
+  assert.match(html, /src="\.\.\/\.\.\/scripts\/tools\/tool-controller\.js"/);
+  assert.doesNotMatch(await readFile(path.join(dist, 'sitemap.xml'), 'utf8'), /\/herramientas\/vtt-a-srt\//);
 });

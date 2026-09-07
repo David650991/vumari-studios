@@ -3,8 +3,10 @@ import {readFileAsUtf8, validateFileSelection} from './file-validation.js';
 import {getProcessor} from './registry.js';
 
 const publicErrors = new Set([
-  'no_file', 'multiple_files', 'unsupported_file', 'empty_file',
-  'invalid_encoding', 'invalid_structure', 'invalid_timestamp'
+  'no_file', 'multiple_files', 'unsupported_file', 'empty_file', 'invalid_encoding',
+  'missing_header', 'unsupported_header', 'invalid_structure', 'invalid_timestamp',
+  'invalid_order', 'unsupported_identifier', 'unsupported_settings', 'unsupported_note',
+  'unsupported_style', 'unsupported_region'
 ]);
 
 function initTool(root) {
@@ -16,6 +18,10 @@ function initTool(root) {
   const resultText = root.querySelector('[data-tool-result-text]');
   const download = root.querySelector('[data-tool-download]');
   const processor = getProcessor(root.dataset.processor);
+  const inputExtension = root.dataset.inputExtension || '.srt';
+  const inputLabel = root.dataset.inputLabel || 'SRT';
+  const outputLabel = root.dataset.outputLabel || 'VTT';
+  const processingLabel = root.dataset.processingLabel || outputLabel;
   let preparedInput = null;
   let releaseDownload = null;
   let operation = null;
@@ -44,7 +50,7 @@ function initTool(root) {
   };
 
   root.hidden = false;
-  setState('idle', 'Selecciona un archivo SRT para comenzar.');
+  setState('idle', `Selecciona un archivo ${inputLabel} para comenzar.`);
 
   fileInput.addEventListener('change', async () => {
     operation?.abort();
@@ -54,13 +60,13 @@ function initTool(root) {
     resetResult();
     try {
       setState('validating', 'Leyendo archivo…');
-      const file = validateFileSelection(fileInput.files);
+      const file = validateFileSelection(fileInput.files, {extension: inputExtension, formatLabel: inputLabel});
       const text = await readFileAsUtf8(file, {signal: operation.signal});
       setState('validating', 'Validando subtítulos…');
       processor.validate({name: file.name, text}, {signal: operation.signal});
       preparedInput = {name: file.name, text};
       submit.disabled = false;
-      setState('ready', 'Archivo válido. Puedes convertirlo a VTT.');
+      setState('ready', `Archivo válido. Puedes convertirlo a ${outputLabel}.`);
     } catch (error) {
       if (error?.name !== 'AbortError') showError(error);
     }
@@ -69,7 +75,7 @@ function initTool(root) {
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (!preparedInput) {
-      showError({code: 'no_file', message: 'Selecciona un archivo SRT válido.'});
+      showError({code: 'no_file', message: `Selecciona un archivo ${inputLabel}.`});
       return;
     }
     operation?.abort();
@@ -77,13 +83,16 @@ function initTool(root) {
     submit.disabled = true;
     resetResult();
     try {
-      setState('processing', 'Convirtiendo a WebVTT…');
+      setState('processing', `Convirtiendo a ${processingLabel}…`);
       const output = processor.process(preparedInput, {}, {signal: operation.signal});
       resultText.textContent = output.text;
       releaseDownload = prepareDownload(download, output);
       result.hidden = false;
       submit.disabled = false;
-      setState('completed', `Conversión terminada. ${output.cueCount} subtítulo${output.cueCount === 1 ? '' : 's'} convertido${output.cueCount === 1 ? '' : 's'}.`);
+      const completedMessage = outputLabel === 'VTT'
+        ? `Conversión terminada. ${output.cueCount} subtítulo${output.cueCount === 1 ? '' : 's'} convertido${output.cueCount === 1 ? '' : 's'}.`
+        : `Conversión terminada. Se generó el archivo ${outputLabel}.`;
+      setState('completed', completedMessage);
       result.focus();
     } catch (error) {
       if (error?.name !== 'AbortError') showError(error);
