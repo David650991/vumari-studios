@@ -10,6 +10,25 @@ La interfaz toma como referencia el material oficial recibido al inicio del
 proyecto. El isotipo combina movimiento, fluidez y una transición cromática de
 naranja y magenta hacia violeta, azul y cian.
 
+## Jerarquía de marca actual
+
+```text
+VUMARI STUDIOS
+    ↓
+VUMARI Tools
+    ↓
+VUMARI Media Tools
+```
+
+- VUMARI STUDIOS es la marca comercial principal.
+- VUMARI Tools identifica la sección experimental de herramientas digitales.
+- VUMARI Media Tools es la única familia registrada actualmente y contiene los
+  conversores experimentales SRT → VTT y VTT → SRT.
+
+Esta jerarquía no convierte Tools en un producto estable o publicado. No existe
+actualmente una sección activa llamada VUMARI LAB ni familias públicas de PDF,
+imagen o desarrollo.
+
 ## Uso digital
 
 - Fondo principal casi negro para sostener el contraste.
@@ -17,6 +36,7 @@ naranja y magenta hacia violeta, azul y cian.
 - Degradado de marca reservado para acciones y acentos importantes.
 - Texto principal claro y texto secundario neutro.
 - Movimiento opcional, corto y compatible con `prefers-reduced-motion`.
+- Tools reutiliza la identidad del sitio; no establece una marca visual ajena.
 
 Los valores implementados son una extracción visual inicial. Deben ajustarse si
 se entrega un manual de marca con valores cromáticos oficiales.
