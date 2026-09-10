@@ -9,4 +9,7 @@
 .site-nav a { border-radius: 0; color: var(--color-muted); display: block; font-size: .88rem; font-weight: 650; padding: 0.65rem 0.75rem; position: relative; text-decoration: none; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--color-text); }
 .site-nav a[aria-current="page"]::after { background: var(--gradient-brand); bottom: .2rem; content: ""; height: 2px; left: .75rem; position: absolute; right: .75rem; }
-@media (min-width: 56rem) { .nav-toggle { display: none; } .site-nav { background: transparent; border: 0; display: block; padding: 0; position: static; } .site-nav ul { align-items: center; display: flex; } }
+.site-nav a.site-nav__cta { background: var(--gradient-brand); border-radius: var(--radius-sm); color: #fff; margin-top: .35rem; text-align: center; }
+.site-nav a.site-nav__cta:hover, .site-nav a.site-nav__cta[aria-current="page"] { color: #fff; filter: brightness(1.08); }
+.site-nav a.site-nav__cta[aria-current="page"]::after { display: none; }
+@media (min-width: 56rem) { .nav-toggle { display: none; } .site-nav { background: transparent; border: 0; display: block; padding: 0; position: static; } .site-nav ul { align-items: center; display: flex; } .site-nav a.site-nav__cta { margin-left: .35rem; margin-top: 0; } }

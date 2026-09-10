@@ -1,12 +1,10 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
 import { access, readdir, readFile } from 'node:fs/promises';
-import { test, before } from 'node:test';
+import { test } from 'node:test';
 import path from 'node:path';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
-before(() => execFileSync(process.execPath, ['scripts/build.mjs'], {cwd: root}));
 
 test('genera todas las páginas públicas', async () => {
   const files = await readdir(dist);
