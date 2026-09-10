@@ -4,7 +4,9 @@
     {"label": "Servicios", "href": "servicios.html"},
     {"label": "Portafolio", "href": "portafolio.html"},
     {"label": "Nosotros", "href": "nosotros.html"},
-    {"label": "Contacto", "href": "contacto.html"}
+    {"label": "Herramientas", "href": "herramientas/", "activePrefix": "herramientas/"},
+    {"label": "Contacto", "href": "contacto.html"},
+    {"label": "Cotizar", "href": "cotizacion.html", "variant": "cta"}
   ],
   "projectIdeas": [
     "Comercial para restaurante", "Promoción para tienda", "Reel para una barbería",

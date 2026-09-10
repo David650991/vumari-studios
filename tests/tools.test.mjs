@@ -59,16 +59,49 @@ test('genera el índice experimental con rutas y metadata correctas', async () =
   assert.doesNotMatch(html, /type="file"|data-tool-controller|Procesar|Descargar/);
 });
 
-test('no publica Tools en navegación ni sitemap', async () => {
+test('publica Tools en la navegación sin incluirlas todavía en el sitemap', async () => {
   const home = await readFile(path.join(dist, 'index.html'), 'utf8');
   const toolsPage = await readFile(path.join(dist, 'herramientas/index.html'), 'utf8');
   const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
+  const homeNavigation = home.match(/<nav class="site-nav"[\s\S]*?<\/nav>/u)?.[0] ?? '';
+  const footerNavigation = home.match(/<nav class="footer-navigation"[\s\S]*?<\/nav>/u)?.[0] ?? '';
   const mainNavigation = toolsPage.match(/<nav class="site-nav"[\s\S]*?<\/nav>/u)?.[0] ?? '';
-  assert.doesNotMatch(home, /href="herramientas(?:\/|\.html)/);
-  assert.doesNotMatch(mainNavigation, />Herramientas</);
+  assert.match(homeNavigation, /href="herramientas\/">Herramientas<\/a>/);
+  assert.match(footerNavigation, /href="herramientas\/">Herramientas<\/a>/);
+  assert.match(mainNavigation, /href="\.\.\/herramientas\/" aria-current="page">Herramientas<\/a>/);
   assert.doesNotMatch(sitemap, /\/herramientas\//);
   assert.match(toolsPage, /href="srt-a-vtt\/">Abrir herramienta experimental/);
   assert.match(toolsPage, /href="vtt-a-srt\/">Abrir herramienta experimental/);
+});
+
+test('mantiene Herramientas activa para el índice y todas las rutas hijas', async () => {
+  const routes = [
+    path.join(dist, 'herramientas/index.html'),
+    ...toolsData.tools.map(tool => path.join(dist, 'herramientas', tool.slug, 'index.html'))
+  ];
+  for (const route of routes) {
+    const html = await readFile(route, 'utf8');
+    const mainNavigation = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/u)?.[0] ?? '';
+    assert.match(mainNavigation, /<a(?=[^>]*aria-current="page")[^>]*>Herramientas<\/a>/);
+    assert.equal((mainNavigation.match(/aria-current="page"/g) ?? []).length, 1);
+  }
+});
+
+test('muestra el CTA Cotizar en el header con una ruta generada válida', async () => {
+  const routes = [
+    { file: path.join(dist, 'index.html'), href: 'cotizacion.html' },
+    { file: path.join(dist, 'herramientas/index.html'), href: '../cotizacion.html' },
+    ...toolsData.tools.map(tool => ({
+      file: path.join(dist, 'herramientas', tool.slug, 'index.html'),
+      href: '../../cotizacion.html'
+    }))
+  ];
+  for (const route of routes) {
+    const html = await readFile(route.file, 'utf8');
+    const mainNavigation = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/u)?.[0] ?? '';
+    assert.ok(mainNavigation.includes(`<a class="site-nav__cta" href="${route.href}"`));
+    await assert.doesNotReject(access(path.resolve(path.dirname(route.file), route.href)));
+  }
 });
 
 test('mantiene la privacidad pública en la página experimental', async () => {
@@ -112,6 +145,7 @@ test('resuelve assets y navegación desde el segundo nivel', async () => {
     '../../servicios.html',
     '../../portafolio.html',
     '../../nosotros.html',
+    '../../herramientas/',
     '../../contacto.html',
     '../../privacidad.html',
     '../../cotizacion.html'

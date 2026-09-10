@@ -15,7 +15,11 @@ await mkdir(dist, { recursive: true });
 const escape = value => String(value).replace(/[&<>"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
 const absolute = file => new URL(file, company.siteUrl).href;
 const withPrefix = (prefix, target) => `${prefix}${target}`;
-const nav = (current, prefix = '') => site.navigation.map(item => `<li><a href="${withPrefix(prefix, item.href)}"${item.href === current ? ' aria-current="page"' : ''}>${item.label}</a></li>`).join('');
+const nav = (current, prefix = '') => site.navigation.map(item => {
+  const isActive = item.href === current || Boolean(item.activePrefix && current.startsWith(item.activePrefix));
+  const className = item.variant === 'cta' ? ' class="site-nav__cta"' : '';
+  return `<li><a${className} href="${withPrefix(prefix, item.href)}"${isActive ? ' aria-current="page"' : ''}>${item.label}</a></li>`;
+}).join('');
 const activeSocialLinks = socialLinks.filter(item => Boolean(item.url));
 const socialItem = (item, prefix = '') => {
   const content = `<img src="${withPrefix(prefix, item.icon)}" alt="" width="32" height="32" loading="lazy"><span><strong>${item.label}</strong><small>${item.url ? 'Visitar perfil' : 'Próximamente'}</small></span>`;
