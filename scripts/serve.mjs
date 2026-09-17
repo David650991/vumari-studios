@@ -7,7 +7,9 @@ const root = path.join(process.cwd(), 'dist');
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.png':'image/png','.webp':'image/webp','.mp4':'video/mp4','.svg':'image/svg+xml','.ico':'image/x-icon','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8'};
 const server = createServer(async (request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-  const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
+  const relative = pathname === '/'
+    ? 'index.html'
+    : `${pathname.replace(/^\/+/, '')}${pathname.endsWith('/') ? 'index.html' : ''}`;
   const file = path.resolve(root, relative);
   if (!file.startsWith(root)) { response.writeHead(403).end('Forbidden'); return; }
   try {
