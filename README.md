@@ -9,21 +9,17 @@ y facilita el contacto y la solicitud de cotizaciones.
 
 ## Estado actual
 
-El repositorio mantiene dos estados claramente separados:
-
-- `main`: sitio comercial estable y publicado mediante GitHub Pages.
-- `feature/vumari-tools`: desarrollo experimental de VUMARI Tools, todavía fuera
-  de producción y revisado mediante el Pull Request #1, que permanece abierto y
-  en Draft.
-
-En `feature/vumari-tools` funcionan actualmente dos herramientas:
+El sitio comercial y VUMARI Tools están integrados en `main`, la rama estable
+que se publica mediante GitHub Pages. Actualmente existen dos herramientas:
 
 - SRT → VTT.
 - VTT → SRT.
 
-Ambas son experimentales, procesan el archivo localmente en el navegador y se
-mantienen con `noindex`. La rama genera 10 páginas y su suite actual tiene 53
-pruebas aprobadas y ninguna fallida.
+Ambas continúan como `Experimental`, están publicadas y procesan el archivo
+localmente en el navegador dentro del alcance validado. Sus páginas conservan
+`noindex` y permanecen fuera del sitemap de forma intencional. La navegación
+pública incluye `Herramientas`. El build actual genera 10 páginas y la suite
+tiene 55 pruebas aprobadas y 0 fallidas.
 
 Los canales oficiales de contacto siguen pendientes de configuración antes de
 habilitar el flujo comercial completo.
@@ -99,22 +95,23 @@ Comandos disponibles:
 - `npm run preview`: sirve `dist/` para revisión local.
 - `npm run check`: ejecuta validación, pruebas y build.
 
-## Resultado del build en la rama de Tools
+## Resultado actual del build
 
-La rama `feature/vumari-tools` genera 10 páginas:
+El build actual de `main` genera 10 páginas:
 
 - 7 páginas comerciales.
 - 3 páginas de Tools: `/herramientas/`, `/herramientas/srt-a-vtt/` y
   `/herramientas/vtt-a-srt/`.
 
-Tools no aparece en el sitemap ni en la navegación principal y no está publicado
-en producción.
+Las páginas de Tools permanecen fuera del sitemap de forma intencional y están
+publicadas mediante GitHub Pages. La navegación pública incluye el acceso a
+`Herramientas`.
 
 ## Publicación
 
 GitHub Pages publica `dist/` solamente cuando un cambio llega a `main` y supera
-el workflow de calidad. La rama `feature/vumari-tools` se valida mediante PR,
-pero no activa el despliegue de producción. Consulta
+el workflow de calidad. VUMARI Tools sigue el mismo flujo y actualmente forma
+parte del sitio publicado. Consulta
 [`docs/deployment.md`](docs/deployment.md).
 
 ## Mantenimiento de contenido

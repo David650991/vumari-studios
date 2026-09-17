@@ -26,11 +26,14 @@ versión publicada para los cambios de VUMARI Tools descritos a continuación.
 
 - 2026-09-03 — Condición de carrera entre builds concurrentes de la suite de
   pruebas (`16393ff`).
+- 2026-09-17 — Corrección del test CRLF de VTT → SRT para hacerlo determinista
+  entre Windows y entornos LF (`351fa0c`).
 
-### Estado de la rama
+### Estado actual
 
 - Herramientas funcionales: 2.
-- Pruebas: 53 aprobadas, 0 fallidas.
+- Pruebas: 55 aprobadas, 0 fallidas.
 - Build: 10 páginas.
-- Publicación de Tools: no; el trabajo permanece en `feature/vumari-tools` y en
-  el Pull Request #1 Draft.
+- Publicación de Tools: integrada en `main` y publicada mediante GitHub Pages.
+- Estado: `Experimental`.
+- SEO: páginas con `noindex` y fuera del sitemap de forma intencional.

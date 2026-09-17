@@ -41,7 +41,8 @@ procesador específico
 - `src/data/tools.json`: catálogo declarativo. Define nombre, slug, familia,
   estado, procesador, formatos, privacidad, SEO y orden.
 - `scripts/build.mjs`: genera el catálogo y una página estática por herramienta
-  registrada. En la rama actual produce 10 páginas: 7 comerciales y 3 de Tools.
+  registrada. En el estado actual produce 10 páginas: 7 comerciales y 3 de
+  Tools.
 - `src/scripts/tools/tool-controller.js`: lee la configuración de la página,
   coordina selección, estados, validación, conversión y descarga. No interpreta
   formatos de subtítulos.
@@ -94,10 +95,10 @@ revisado actualmente.
 
 ## Estado, publicación y SEO
 
-SRT → VTT y VTT → SRT están marcadas como experimentales. Sus páginas incluyen
-`noindex, follow` y canonical, pero están fuera del sitemap y la navegación
-principal. Permanecen en `feature/vumari-tools`; GitHub Pages publica desde
-`main`, por lo que Tools todavía no está en producción.
+SRT → VTT y VTT → SRT están integradas en `main`, publicadas dentro de VUMARI
+Tools y continúan marcadas como `Experimental`. `Herramientas` está enlazada
+desde la navegación pública. Las páginas de Tools incluyen `noindex, follow` y
+canonical, y permanecen fuera del sitemap de forma intencional.
 
 ## Reglas generales del repositorio
 
