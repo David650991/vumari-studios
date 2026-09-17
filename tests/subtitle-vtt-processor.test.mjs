@@ -50,7 +50,9 @@ test('acepta UTF-8 con BOM inicial', async () => {
 });
 
 test('acepta y normaliza CRLF', async () => {
-  const source = (await fixture('valid-vtt-crlf.vtt')).replace(/\n/g, '\r\n');
+  const source = (await fixture('valid-vtt-crlf.vtt'))
+    .replace(/\r\n?/g, '\n')
+    .replace(/\n/g, '\r\n');
   const output = subtitleVttToSrtProcessor.process({name: 'crlf.vtt', text: source});
   assert.doesNotMatch(output.text, /\r/);
 });
