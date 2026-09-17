@@ -25,21 +25,19 @@ Flujo automático:
 En la configuración del repositorio, Pages debe utilizar **GitHub Actions** como
 fuente. No se necesita guardar ninguna API key en el frontend.
 
-## Rama experimental de Tools
+## VUMARI Tools
 
-VUMARI Tools permanece en `feature/vumari-tools`, revisada mediante el Pull
-Request #1, que está abierto y en Draft. Esta rama pasa el workflow Quality, pero
-no activa automáticamente el despliegue de producción.
-
-Actualmente contiene:
+VUMARI Tools está integrada en `main` y se publica mediante el mismo workflow
+de GitHub Pages que el sitio comercial. Actualmente contiene:
 
 - `/herramientas/`;
 - `/herramientas/srt-a-vtt/`;
 - `/herramientas/vtt-a-srt/`.
 
-Las tres páginas usan `noindex`; no aparecen en el sitemap ni en el menú
-principal. No deben considerarse publicadas mientras no exista un merge
-autorizado hacia `main`.
+Las tres páginas continúan como `Experimental`, usan `noindex` y permanecen
+fuera del sitemap de forma intencional. `Herramientas` forma parte de la
+navegación pública. Los cambios posteriores sólo se publican cuando llegan a
+`main` y superan las comprobaciones del workflow.
 
 ## Dominio
 
