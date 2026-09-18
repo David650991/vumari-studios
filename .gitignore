@@ -5,7 +5,7 @@ venv/
 
 # Salidas generadas
 dist/
-build/
+/build/
 .cache/
 .tmp-video-review/
 
