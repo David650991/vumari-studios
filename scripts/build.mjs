@@ -2,6 +2,7 @@ import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { loadSiteData } from './build/data-loader.mjs';
+import { absoluteUrl, escape, withPrefix } from './build/html.mjs';
 
 const root = process.cwd();
 const { company, author, legal, services, portfolio, site, socialLinks, contactChannels, toolsData } = await loadSiteData(root);
@@ -9,9 +10,7 @@ const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 
-const escape = value => String(value).replace(/[&<>"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
-const absolute = file => new URL(file, company.siteUrl).href;
-const withPrefix = (prefix, target) => `${prefix}${target}`;
+const absolute = file => absoluteUrl(company.siteUrl, file);
 const nav = (current, prefix = '') => site.navigation.map(item => {
   const isActive = item.href === current || Boolean(item.activePrefix && current.startsWith(item.activePrefix));
   const className = item.variant === 'cta' ? ' class="site-nav__cta"' : '';
