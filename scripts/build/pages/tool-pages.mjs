@@ -29,12 +29,27 @@ const renderToolPage = tool => {
 };
 
 export function createToolPages({ company, toolsData }) {
+  const familyGroups = toolsData.families.map((family, index) => ({
+    family,
+    index,
+    tools: toolsData.tools.filter(tool => tool.family === family.id)
+  })).filter(group => group.tools.length > 0);
+  const familySections = familyGroups.map(({ family, index, tools }, groupIndex) => {
+    const eyebrow = index === 0 ? 'Primera familia' : `Familia ${index + 1}`;
+    const description = family.id === 'media'
+      ? 'Utilidades para formatos multimedia, comenzando por transformaciones ligeras y verificables.'
+      : 'Utilidades digitales agrupadas por una necesidad común.';
+    const cta = groupIndex === familyGroups.length - 1
+      ? '<p class="tools-family__cta">¿Necesitas una solución digital para tu proyecto? <a href="../cotizacion.html">Solicita una cotización</a>.</p>'
+      : '';
+    return `<section class="section section--soft"><div class="container tools-family"><div class="tools-family__heading"><p class="eyebrow">${eyebrow}</p><h2>${escape(family.name)}</h2><p>${description}</p></div><div class="tools-grid">${tools.map(tool => `<article class="tool-card"><p class="tool-card__status">${tool.status === 'experimental' ? 'Experimental' : escape(tool.status)}</p><h3>${escape(tool.shortName)}</h3><p>${escape(tool.summary)}</p><p class="tool-card__format">${escape(tool.input.formats.join(', ').toUpperCase())} <span aria-hidden="true">→</span> ${escape(tool.output.formats.join(', ').toUpperCase())}</p><a href="${escape(tool.slug)}/">Abrir herramienta experimental <span aria-hidden="true">→</span></a></article>`).join('')}</div>${cta}</div></section>`;
+  }).join('');
   return [
     {
       file:'herramientas/index.html', canonicalPath:'herramientas/', assetPrefix:'../', noindex:true,
       title:`VUMARI Tools | ${company.brand}`,
       description:'Herramientas digitales desarrolladas progresivamente por VUMARI STUDIOS.',
-      content:`<section class="page-hero"><div class="container tools-intro"><p class="eyebrow">Tecnología VUMARI</p><h1>VUMARI Tools</h1><p class="lead">Herramientas digitales desarrolladas progresivamente por VUMARI STUDIOS.</p></div></section><section class="section section--soft"><div class="container tools-family"><div class="tools-family__heading"><p class="eyebrow">Primera familia</p><h2>${escape(toolsData.families[0].name)}</h2><p>Utilidades para formatos multimedia, comenzando por transformaciones ligeras y verificables.</p></div><div class="tools-grid">${toolsData.tools.map(tool => `<article class="tool-card"><p class="tool-card__status">${tool.status === 'experimental' ? 'Experimental' : escape(tool.status)}</p><h3>${escape(tool.shortName)}</h3><p>${escape(tool.summary)}</p><p class="tool-card__format">${escape(tool.input.formats.join(', ').toUpperCase())} <span aria-hidden="true">→</span> ${escape(tool.output.formats.join(', ').toUpperCase())}</p><a href="${escape(tool.slug)}/">Abrir herramienta experimental <span aria-hidden="true">→</span></a></article>`).join('')}</div><p class="tools-family__cta">¿Necesitas una solución digital para tu proyecto? <a href="../cotizacion.html">Solicita una cotización</a>.</p></div></section>`
+      content:`<section class="page-hero"><div class="container tools-intro"><p class="eyebrow">Tecnología VUMARI</p><h1>VUMARI Tools</h1><p class="lead">Herramientas digitales desarrolladas progresivamente por VUMARI STUDIOS.</p></div></section>${familySections}`
     },
     ...toolsData.tools.map(renderToolPage)
   ];

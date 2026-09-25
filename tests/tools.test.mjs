@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 import { test, before } from 'node:test';
 import path from 'node:path';
+import { createToolPages } from '../scripts/build/pages/tool-pages.mjs';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
@@ -12,8 +13,8 @@ before(async () => {
 });
 
 test('mantiene un catálogo mínimo y válido de VUMARI Tools', () => {
-  assert.equal(toolsData.families.length, 1);
-  assert.equal(toolsData.families[0].name, 'VUMARI Media Tools');
+  assert.ok(toolsData.families.length >= 1);
+  assert.ok(toolsData.families.some(family => family.id === 'media' && family.name === 'VUMARI Media Tools'));
   assert.equal(toolsData.tools.length, 2);
   const ids = toolsData.tools.map(tool => tool.id);
   const slugs = toolsData.tools.map(tool => tool.slug);
@@ -21,6 +22,32 @@ test('mantiene un catálogo mínimo y válido de VUMARI Tools', () => {
   assert.equal(new Set(slugs).size, slugs.length);
   assert.deepEqual(toolsData.tools.map(tool => tool.order), [1, 2]);
   assert.ok(toolsData.tools.every(tool => ['planned', 'experimental', 'beta', 'stable'].includes(tool.status)));
+});
+
+test('agrupa Tools por familia sin mutar el catálogo', () => {
+  const original = JSON.stringify(toolsData);
+  const fixture = structuredClone(toolsData);
+  fixture.families.push({ id: 'audio', name: 'VUMARI Audio Tools' });
+  fixture.tools[1].family = 'audio';
+  const fixtureBeforeRender = JSON.stringify(fixture);
+
+  const indexPage = createToolPages({
+    company: { brand: 'VUMARI STUDIOS' },
+    toolsData: fixture
+  }).find(page => page.file === 'herramientas/index.html');
+  const html = indexPage.content;
+  const mediaPosition = html.indexOf('VUMARI Media Tools');
+  const srtPosition = html.indexOf('SRT → VTT');
+  const audioPosition = html.indexOf('VUMARI Audio Tools');
+  const vttPosition = html.indexOf('VTT → SRT');
+
+  assert.ok(mediaPosition >= 0);
+  assert.ok(audioPosition >= 0);
+  assert.ok(mediaPosition < srtPosition && srtPosition < audioPosition);
+  assert.ok(audioPosition < vttPosition);
+  assert.equal((html.match(/tools-family__cta/g) ?? []).length, 1);
+  assert.equal(JSON.stringify(fixture), fixtureBeforeRender);
+  assert.equal(JSON.stringify(toolsData), original);
 });
 
 test('registra SRT a VTT como experimental, local previsto y no indexable', () => {
